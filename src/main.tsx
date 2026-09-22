@@ -259,11 +259,11 @@ function App(){
      </div>
      <label className="consent-card">
       <input type="checkbox" checked={analyticsConsent} onChange={e=>setConsentState(e.target.checked)}/>
-      <span><b>Anonymous pilot data শেয়ার করতে রাজি</b><small>শুধু ধাপ, পছন্দ, সময়, completion ও device type রেকর্ড হবে। নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নয়। এটি ঐচ্ছিক।</small></span>
+      <span><b>গবেষণার জন্য নামবিহীন ব্যবহার-তথ্য শেয়ার করতে রাজি</b><small>শুধু কোন ধাপে গেলেন, কোন অপশন বেছে নিলেন, কত সময় লাগল, সম্পন্ন করেছেন কি না এবং ডিভাইসের ধরন রেকর্ড হবে। নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নেওয়া হবে না। এটি ঐচ্ছিক।</small></span>
      </label>
      <div className="notice-footer">
       <p>এই সূচকগুলো শেখানোর জন্য; বাস্তব জগতের প্রভাবের পরিমাপ নয়।</p>
-      <button className="btn-primary" onClick={()=>{setAnalyticsConsent(analyticsConsent);if(analyticsConsent){track('analytics_consent_granted',{screen:'notice'});track('guide_completed',{screen:'notice'});}setScreen('intro');}}>নদীতে প্রবেশ করুন <ArrowRight/></button>
+      <button className="btn-primary" onClick={()=>{setAnalyticsConsent(analyticsConsent);if(analyticsConsent){track('analytics_consent_granted',{screen:'notice'});track('app_open',{screen:'notice'});track('guide_completed',{screen:'notice'});}setScreen('intro');}}>নদীতে প্রবেশ করুন <ArrowRight/></button>
      </div>
     </section>
    </main>
@@ -346,7 +346,7 @@ function App(){
       {(['reach','hostility','safety','trust'] as const).map(k=>{
        const v=mm(b)[k],d=v-base[k],good=(k==='safety'||k==='trust')?d>=0:d<=0;
        return <div className="metric-row-v2" key={k}>
-        <div><span>{{reach:'নাগাল',hostility:'উত্তেজনা',safety:'নিরাপত্তা',trust:'আস্থা'}[k]}</span><strong className={good?'delta-good':'delta-bad'}>{d>=0?'+':''}{d}</strong></div>
+        <div><span>{({reach:'নাগাল',hostility:'উত্তেজনা',safety:'নিরাপত্তা',trust:'আস্থা'} as const)[k]}</span><strong className={good?'delta-good':'delta-bad'}>{d>=0?'+':''}{d}</strong></div>
         <div className="metric-track"><i style={{width:v+'%'}} className={good?'track-good':'track-bad'}/></div>
         <small>{base[k]} → {v}</small>
        </div>
@@ -460,7 +460,7 @@ function App(){
      </div>
      <div className="metric-compare-grid">
       {(['reach','hostility','safety','trust'] as const).map(k=>
-       <div key={k}><span>{{reach:'নাগাল',hostility:'উত্তেজনা',safety:'নিরাপত্তা',trust:'আস্থা'}[k]}</span><strong>{mm(b)[k]} <ArrowRight/> {mm(p)[k]}</strong><small>নতুন দিক</small></div>
+       <div key={k}><span>{({reach:'নাগাল',hostility:'উত্তেজনা',safety:'নিরাপত্তা',trust:'আস্থা'} as const)[k]}</span><strong>{mm(b)[k]} <ArrowRight/> {mm(p)[k]}</strong><small>নতুন দিক</small></div>
       )}
      </div>
     </section>
