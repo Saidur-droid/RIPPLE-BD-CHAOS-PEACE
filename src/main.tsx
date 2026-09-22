@@ -124,13 +124,13 @@ function App(){
  };
 
  return <div className="app-v2">
-  {screen!=='landing'&&screen!=='notice'&&
+  {screen!=='landing'&&screen!=='notice'&&screen!=='guide'&&
    <header className="product-header">
-    <button className="brand-button" onClick={()=>setScreen('landing')} aria-label="Return to home">
+    <button className="brand-button" onClick={()=>setScreen('landing')} aria-label="হোমে ফিরে যান">
      <span className="brand-mark">R</span>
      <span className="brand-copy"><b>RIPPLE BD</b><small>ডিজিটাল সিদ্ধান্ত অনুশীলন</small></span>
     </button>
-    <div className="header-progress" aria-label="Scenario progress">
+    <div className="header-progress" aria-label="দৃশ্যের অগ্রগতি">
      {scenarios.map((x,n)=>
       <div key={x.id} className={'progress-item '+(n<i?'is-done':n===i?'is-active':'')}>
        <span>{n<i?'✓':'0'+(n+1)}</span>
@@ -174,10 +174,10 @@ function App(){
       </div>
      </div>
 
-     <div className="product-preview" aria-label="Product preview">
+     <div className="product-preview" aria-label="পণ্যের নমুনা অভিজ্ঞতা">
       <div className="preview-topbar">
        <div><span className="mini-avatar">N</span><b>নদী / কমিউনিটি ফিড</b></div>
-       <span className="simulation-label">SIMULATION</span>
+       <span className="simulation-label">সিমুলেশন</span>
       </div>
       <div className="preview-post">
        <small>ট্রেন্ডিং · ২ মিনিট আগে</small>
@@ -311,7 +311,7 @@ function App(){
     <article className="feed-card">
      <div className="feed-card-head">
       <div><span className="mini-avatar">N</span><div><b>নদী ফিড</b><small>@nodi_live · এখন</small></div></div>
-      <span className="simulation-label">SIMULATION</span>
+      <span className="simulation-label">সিমুলেশন</span>
      </div>
      <p className="feed-text">{s.post}</p>
      <div className="feed-media"><Play/></div>
