@@ -27,6 +27,8 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
       - name: Typecheck and build
+        env:
+          VITE_TRACKING_ENDPOINT: ${{ vars.VITE_TRACKING_ENDPOINT }}
         run: npm run build
       - name: Configure Pages
         uses: actions/configure-pages@v5
