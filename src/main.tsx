@@ -285,7 +285,7 @@ function App(){
 
  useEffect(()=>{
   localStorage.setItem('ripple-results',JSON.stringify(results));
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'auto'});
   setScreenStartedAt(Date.now());
   track('screen_view',{screen,scenario_id:s.id,scenario_index:i+1});
  },[results,screen,i]);
