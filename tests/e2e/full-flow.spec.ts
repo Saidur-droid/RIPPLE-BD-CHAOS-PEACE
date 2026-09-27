@@ -40,7 +40,7 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
   await expect(human.locator('.impact-kicker')).toBeVisible();
   if (locale === 'en') {
     await expect(human).toContainText('Your action pushed the harm further.');
-    await expect(human).toContainText('Fictional composite');
+    await expect(human).toContainText('Fictional consequence pathway');
   } else {
     await expect(human).toContainText('আপনার কাজটি ক্ষতিটা আরও এগিয়ে দিল।');
     await expect(human).toContainText('কাল্পনিক');
@@ -100,13 +100,14 @@ async function runFullJourney(page: Page, locale: 'en' | 'bn') {
   await page.goto(path);
   await expect(page).toHaveTitle(/RIPPLE BD/);
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.trust')).toContainText(locale === 'bn' ? '৩টি সম্পূর্ণ দৃশ্য' : '3 complete scenarios');
+  await expect(page.locator('.trust')).toContainText('3 complete scenarios');
   await assertNoHorizontalOverflow(page);
 
   if (locale === 'bn') {
     await page.locator('.language-switch button').filter({ hasText: 'বাংলা' }).first().click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
     await expect(page.locator('h1')).toContainText('একটি ছোট অনলাইন কাজ');
+    await expect(page.locator('.trust')).toContainText('৩টি সম্পূর্ণ দৃশ্য');
   } else {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   }
