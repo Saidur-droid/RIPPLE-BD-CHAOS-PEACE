@@ -337,8 +337,10 @@ function App(){
    <span className="eyebrow">{t.ripple}</span><h2>{t.rippleTitle}</h2><p className="lead">{t.rippleBody}</p>
    <div className="human-impact-card">
       <span className="impact-kicker"><Heart/>{locale==='en'?'THE HUMAN COST':'মানুষের ওপর প্রভাব'}</span>
-      <h3>{locale==='en'?'One small action can leave the screen.':'ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।'}</h3>
-      <p>{s.human||b.body}</p>
+      <h3>{b.kind==='risk'
+       ? (locale==='en'?'One small action can leave the screen.':'ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।')
+       : (locale==='en'?'Your pause changed what happened next.':'আপনার থামা পরের ঘটনাপ্রবাহ বদলে দিয়েছে।')}</h3>
+      <p>{b.kind==='risk'?(s.human||b.body):b.body}</p>
       <small>{locale==='en'?'Fictional composite · designed to show a plausible harm pathway, not predict an individual outcome.':'কাল্পনিক সমন্বিত দৃশ্য · সম্ভাব্য ক্ষতির পথ বোঝাতে তৈরি, কোনো ব্যক্তির বাস্তব ফলাফল ভবিষ্যদ্বাণী নয়।'}</small>
    </div>
    <div className="outcome"><div className="timeline"><span>1</span><div><small>{t.click}</small><b>{b.label}</b></div><span>2</span><div><small>{t.network}</small><b>{b.title}</b></div><span className="human"><Heart/></span><div><small>{t.human}</small><b>{b.body}</b></div></div>
