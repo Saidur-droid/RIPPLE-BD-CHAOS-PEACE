@@ -3,16 +3,12 @@ import ReactDOM from 'react-dom/client';
 import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Sparkles,Users} from 'lucide-react';
 import './styles.css';
 import {hasAnalyticsConsent,setAnalyticsConsent,track} from './tracking';
-
-type Locale='en'|'bn';
-type Metrics={reach:number;hostility:number;safety:number;trust:number};
-type Choice={id:string;label:string;helper:string;kind:'risk'|'safe'|'neutral'|'support';delta:Partial<Metrics>;score:number;title:string;body:string};
-type Scenario={id:string;title:string;tag:string;intro:string;post:string;prompt:string;choices:Choice[];peace:Choice[];xray:{t:string;s:string;b:string}[];shield?:string[]};
+import {buildGeneratedScenarios,currentSessionIds,rotateSessionIds,type Locale,type Metrics,type Scenario,type Choice} from './scenarioEngine';
 
 const base:Metrics={reach:48,hostility:34,safety:70,trust:66};
 
 const scenariosEn:Scenario[]=[
-{id:'clip',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',intro:'A dramatic clip is moving fast through Nodi. The caption is certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
+{id:'clip',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',human:'A fictional family closes their small shop early after threatening messages target people who share their community identity. Their teenage daughter is told not to travel alone that evening.',intro:'A dramatic clip is moving fast through Nodi. The caption is certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
 {id:'share',label:'Share now',helper:'Pass it on before it disappears',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'Speed beats context',body:'The clip reaches more feeds and comments shift from the event to broad claims about an entire community.'},
 {id:'comment',label:'Post an angry comment',helper:'Call the group out publicly',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'The frame hardens',body:'Your comment becomes social proof and replies repeat the same identity framing without checking the clip.'},
 {id:'verify',label:'Verify the source',helper:'Pause and look for original context',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'The spread slows',body:'You notice the clip begins mid-scene and the source remains unclear, so you do not amplify it.'},
@@ -27,7 +23,7 @@ xray:[
 {t:'Cropped context',s:'9 seconds only',b:'Short clips can hide what happened immediately before or after.'},
 {t:'Social proof',s:'713 shares',b:'Popularity can feel like evidence, but engagement does not verify a claim.'},
 {t:'Identity framing',s:'Whole-group blame',b:'A claim about an event can become a claim about an entire community.'}]},
-{id:'meme',title:'The Viral Meme',tag:'Cyberbullying · Gendered harassment',intro:'A “joke” about a fictional student is becoming a pile-on. The crowd keeps making it harsher.',post:'A meme mocks fictional student Rima after a class presentation. Replies turn sexualized and a screenshot hints that hostile DMs have started.',prompt:'You know Rima casually. What is your first move?',choices:[
+{id:'meme',title:'The Viral Meme',tag:'Cyberbullying · Gendered harassment',human:'Rima stops attending class for several days, deletes her public photos, and asks a friend to walk home with her because hostile DMs no longer feel confined to the screen.',intro:'A “joke” about a fictional student is becoming a pile-on. The crowd keeps making it harsher.',post:'A meme mocks fictional student Rima after a class presentation. Replies turn sexualized and a screenshot hints that hostile DMs have started.',prompt:'You know Rima casually. What is your first move?',choices:[
 {id:'laugh',label:'React with a laugh',helper:'It is “just a meme”',kind:'risk',delta:{reach:15,hostility:21,safety:-18,trust:-12},score:10,title:'The crowd reads approval',body:'Another reaction adds social proof and lowers the social cost for others to join.'},
 {id:'reshare',label:'Re-share it',helper:'Send it to another chat',kind:'risk',delta:{reach:26,hostility:24,safety:-23,trust:-17},score:4,title:'The target loses control of reach',body:'The meme escapes its original context and more strangers join in.'},
 {id:'ignore',label:'Keep scrolling',helper:'Stay out of it',kind:'neutral',delta:{reach:4,hostility:8,safety:-5,trust:-4},score:42,title:'You avoid adding harm',body:'The pile-on continues, but you do not make it worse.'},
@@ -43,7 +39,7 @@ xray:[
 {t:'Evidence vs recirculation',s:'Screenshot risk',b:'Preserve only what is needed. Do not spread harmful material as “evidence.”'},
 {t:'Escalation cue',s:'Hostile DMs',b:'Credible threats may require trusted or official support.'}],
 shield:['Recognize — name the behavior without blaming the target.','Support — check in privately and ask what the person wants.','Preserve — save only necessary evidence without recirculation.','Report — use the relevant platform or community pathway.','Escalate — credible threats may require trusted or official support.']},
-{id:'voice',title:'The Missing Voice',tag:'Source diversity · Inclusion',intro:'A sweeping claim about a fictional minority community is everywhere. Everyone is speaking about them. Nobody from the community is quoted.',post:'“They do not want to integrate with the rest of us.” The post cites “people nearby” but gives no direct source, document or first-person voice.',prompt:'You are about to join the conversation. What do you do?',choices:[
+{id:'voice',title:'The Missing Voice',tag:'Source diversity · Inclusion',human:'A fictional young volunteer from the community receives angry messages demanding that she defend claims she never made, while outsiders keep defining her community for her.',intro:'A sweeping claim about a fictional minority community is everywhere. Everyone is speaking about them. Nobody from the community is quoted.',post:'“They do not want to integrate with the rest of us.” The post cites “people nearby” but gives no direct source, document or first-person voice.',prompt:'You are about to join the conversation. What do you do?',choices:[
 {id:'share',label:'Share the outsider take',helper:'It sounds plausible',kind:'risk',delta:{reach:18,hostility:15,safety:-11,trust:-18},score:18,title:'The claim becomes the default story',body:'Repetition makes an unsupported interpretation feel settled.'},
 {id:'stereo',label:'Add a stereotype',helper:'Generalize from what you heard',kind:'risk',delta:{reach:12,hostility:26,safety:-18,trust:-25},score:4,title:'A broad label replaces people',body:'The thread shifts from one claim to a fixed identity judgment.'},
 {id:'source',label:'Seek a primary source',helper:'Look for direct, relevant context',kind:'safe',delta:{reach:-4,hostility:-10,safety:10,trust:17},score:86,title:'The information gap becomes visible',body:'You notice the post has no direct evidence and no first-person source.'},
@@ -61,7 +57,7 @@ xray:[
 ];
 
 const scenariosBn:Scenario[]=[
-{id:'clip',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',intro:'নদীতে একটি ছোট ভিডিও দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
+{id:'clip',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',human:'হুমকিমূলক বার্তায় একই পরিচয়ের মানুষদের টার্গেট করা শুরু হলে একটি কাল্পনিক পরিবার ছোট দোকানটি আগেই বন্ধ করে দেয়। তাদের কিশোরী মেয়েকে সেদিন একা বাইরে যেতে নিষেধ করা হয়।',intro:'নদীতে একটি ছোট ভিডিও দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
 {id:'share',label:'এখনই শেয়ার করব',helper:'হারিয়ে যাওয়ার আগে অন্যদেরও দেখাই',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'গতি তথ্যকে পেছনে ফেলল',body:'ভিডিওটি আরও বেশি মানুষের কাছে পৌঁছায় এবং আলোচনা ঘটনাটি যাচাই করার বদলে পুরো একটি গোষ্ঠীকে নিয়ে সাধারণীকরণের দিকে চলে যায়।'},
 {id:'comment',label:'রাগের মন্তব্য করব',helper:'পাবলিকভাবে প্রতিবাদ জানাই',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'উত্তেজনা আরও শক্ত হলো',body:'আপনার মন্তব্য অন্যদের কাছে “সবাই এমনই ভাবছে” ধরনের সংকেত তৈরি করে; যাচাই ছাড়াই একই পরিচয়ভিত্তিক ভাষা ছড়িয়ে পড়ে।'},
 {id:'verify',label:'উৎস যাচাই করব',helper:'থামি, মূল ভিডিও ও প্রেক্ষাপট খুঁজি',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'ছড়িয়ে পড়ার গতি কমল',body:'আপনি বুঝতে পারেন ভিডিওটি মাঝখান থেকে শুরু হয়েছে এবং মূল উৎস পরিষ্কার নয়—তাই অনিশ্চিত দাবিটি আর ছড়ান না।'},
@@ -77,7 +73,7 @@ xray:[
 {t:'সংখ্যার প্রভাব',s:'৭১৩ শেয়ার',b:'অনেক শেয়ার হওয়া সত্যতার প্রমাণ নয়; জনপ্রিয়তা ও যাচাই এক জিনিস নয়।'},
 {t:'পরিচয় দিয়ে ফ্রেম করা',s:'পুরো গোষ্ঠীকে দায়ী',b:'একটি ঘটনার দাবি খুব দ্রুত একটি পুরো সম্প্রদায় সম্পর্কে দাবিতে পরিণত হতে পারে।'}]},
 
-{id:'meme',title:'ভাইরাল মিম',tag:'সাইবার বুলিং · লিঙ্গভিত্তিক হয়রানি',intro:'একজন কাল্পনিক শিক্ষার্থীকে নিয়ে “মজা” এখন দলবদ্ধ অপমানে পরিণত হচ্ছে। মন্তব্যগুলো ক্রমেই কঠোর হচ্ছে।',post:'ক্লাস প্রেজেন্টেশনের পর কাল্পনিক শিক্ষার্থী রিমাকে নিয়ে একটি মিম ছড়িয়েছে। মন্তব্যগুলো যৌন ইঙ্গিতপূর্ণ হয়ে উঠেছে এবং একটি স্ক্রিনশটে শত্রুতাপূর্ণ ব্যক্তিগত মেসেজের ইঙ্গিত আছে।',prompt:'রিমাকে আপনি চেনেন। আপনার প্রথম পদক্ষেপ কী?',choices:[
+{id:'meme',title:'ভাইরাল মিম',tag:'সাইবার বুলিং · লিঙ্গভিত্তিক হয়রানি',human:'রিমা কয়েকদিন ক্লাসে যায় না, নিজের পাবলিক ছবি মুছে দেয় এবং শত্রুতাপূর্ণ DM আর শুধু স্ক্রিনে সীমাবদ্ধ থাকবে কি না—এই ভয়ে বন্ধুকে সঙ্গে নিয়ে বাসায় ফিরতে বলে।',intro:'একজন কাল্পনিক শিক্ষার্থীকে নিয়ে “মজা” এখন দলবদ্ধ অপমানে পরিণত হচ্ছে। মন্তব্যগুলো ক্রমেই কঠোর হচ্ছে।',post:'ক্লাস প্রেজেন্টেশনের পর কাল্পনিক শিক্ষার্থী রিমাকে নিয়ে একটি মিম ছড়িয়েছে। মন্তব্যগুলো যৌন ইঙ্গিতপূর্ণ হয়ে উঠেছে এবং একটি স্ক্রিনশটে শত্রুতাপূর্ণ ব্যক্তিগত মেসেজের ইঙ্গিত আছে।',prompt:'রিমাকে আপনি চেনেন। আপনার প্রথম পদক্ষেপ কী?',choices:[
 {id:'laugh',label:'হাসির রিঅ্যাক্ট দেব',helper:'ভাবব—এটা তো “শুধু মিম”',kind:'risk',delta:{reach:15,hostility:21,safety:-18,trust:-12},score:10,title:'ভিড় এটাকে অনুমোদন হিসেবে নিল',body:'আরেকটি রিঅ্যাক্ট অন্যদেরও যোগ দেওয়ার সামাজিক বাধা কমিয়ে দেয়।'},
 {id:'reshare',label:'আরেক গ্রুপে পাঠাব',helper:'বন্ধুদের সঙ্গে “মজা” শেয়ার করি',kind:'risk',delta:{reach:26,hostility:24,safety:-23,trust:-17},score:4,title:'রিমা পোস্টটির নাগাল নিয়ন্ত্রণ হারাল',body:'মিমটি মূল জায়গার বাইরে যায় এবং আরও অপরিচিত মানুষ এতে যোগ দেয়।'},
 {id:'ignore',label:'স্ক্রল করে চলে যাব',helper:'নিজেকে এর বাইরে রাখি',kind:'neutral',delta:{reach:4,hostility:8,safety:-5,trust:-4},score:42,title:'আপনি ক্ষতি বাড়ালেন না',body:'দলবদ্ধ অপমান চলতে থাকে, তবে আপনার কারণে তা আর বাড়ে না।'},
@@ -100,7 +96,7 @@ shield:[
 'প্রয়োজনে বাড়তি সহায়তা নিন — বিশ্বাসযোগ্য হুমকি থাকলে বিশ্বস্ত বা আনুষ্ঠানিক সহায়তায় যান।'
 ]},
 
-{id:'voice',title:'অনুপস্থিত কণ্ঠ',tag:'উৎসের বৈচিত্র্য · অন্তর্ভুক্তি',intro:'একটি কাল্পনিক সংখ্যালঘু সম্প্রদায়কে নিয়ে বড় একটি দাবি ছড়াচ্ছে। সবাই তাদের নিয়ে কথা বলছে—কিন্তু তাদের কারও সরাসরি বক্তব্য নেই।',post:'“ওরা আমাদের সঙ্গে মিশতে চায় না।” পোস্টটি “এলাকার লোকজন”কে উৎস হিসেবে উল্লেখ করেছে, কিন্তু কোনো সরাসরি সাক্ষ্য, নথি বা সংশ্লিষ্ট ব্যক্তির বক্তব্য নেই।',prompt:'আপনি আলোচনায় যোগ দিতে যাচ্ছেন। প্রথমে কী করবেন?',choices:[
+{id:'voice',title:'অনুপস্থিত কণ্ঠ',human:'কমিউনিটির একজন কাল্পনিক তরুণ স্বেচ্ছাসেবক এমন দাবির জবাব দিতে রাগান্বিত বার্তা পায় যা সে কখনো করেনি, অথচ বাইরের লোকজন তার কমিউনিটির গল্প তার হয়ে বলে যেতে থাকে।',tag:'উৎসের বৈচিত্র্য · অন্তর্ভুক্তি',intro:'একটি কাল্পনিক সংখ্যালঘু সম্প্রদায়কে নিয়ে বড় একটি দাবি ছড়াচ্ছে। সবাই তাদের নিয়ে কথা বলছে—কিন্তু তাদের কারও সরাসরি বক্তব্য নেই।',post:'“ওরা আমাদের সঙ্গে মিশতে চায় না।” পোস্টটি “এলাকার লোকজন”কে উৎস হিসেবে উল্লেখ করেছে, কিন্তু কোনো সরাসরি সাক্ষ্য, নথি বা সংশ্লিষ্ট ব্যক্তির বক্তব্য নেই।',prompt:'আপনি আলোচনায় যোগ দিতে যাচ্ছেন। প্রথমে কী করবেন?',choices:[
 {id:'share',label:'বাইরের ব্যাখ্যাটি শেয়ার করব',helper:'শুনতে বিশ্বাসযোগ্য লাগছে',kind:'risk',delta:{reach:18,hostility:15,safety:-11,trust:-18},score:18,title:'অনুমানটাই মূল গল্প হয়ে গেল',body:'একই কথা বারবার বলা হলে প্রমাণহীন ব্যাখ্যাও প্রতিষ্ঠিত সত্যের মতো মনে হতে শুরু করে।'},
 {id:'stereo',label:'একটি সাধারণীকরণ যোগ করব',helper:'যা শুনেছি তা পুরো গোষ্ঠীর ওপর বসাই',kind:'risk',delta:{reach:12,hostility:26,safety:-18,trust:-25},score:4,title:'মানুষের জায়গা নিল একটি লেবেল',body:'আলোচনা একটি দাবির বদলে পুরো পরিচয়কে বিচার করার দিকে চলে যায়।'},
 {id:'source',label:'প্রাথমিক উৎস খুঁজব',helper:'সরাসরি ও প্রাসঙ্গিক প্রমাণ খুঁজি',kind:'safe',delta:{reach:-4,hostility:-10,safety:10,trust:17},score:86,title:'তথ্যের ঘাটতি দৃশ্যমান হলো',body:'আপনি বুঝতে পারেন পোস্টটিতে সরাসরি প্রমাণও নেই, সংশ্লিষ্ট মানুষের কণ্ঠও নেই।'},
@@ -199,10 +195,17 @@ function App(){
  const [shield,setShield]=useState(0);
  const [analyticsConsent,setConsentState]=useState(()=>hasAnalyticsConsent());
  const [screenStartedAt,setScreenStartedAt]=useState(()=>Date.now());
+ const generatedEn=buildGeneratedScenarios('en');
+ const generatedBn=buildGeneratedScenarios('bn');
+ const allEn=[...scenariosEn,...generatedEn];
+ const allBn=[...scenariosBn,...generatedBn];
+ const allIds=allEn.map(x=>x.id);
+ const [sessionIds,setSessionIds]=useState<string[]>(()=>currentSessionIds(allIds));
 
  const t=ui[locale];
- const scenarios=locale==='en'?scenariosEn:scenariosBn;
- const s=scenarios[i]!;
+ const catalog=locale==='en'?allEn:allBn;
+ const scenarios=sessionIds.map(id=>catalog.find(x=>x.id===id)).filter((x):x is Scenario=>Boolean(x));
+ const s=scenarios[i]||catalog[0]!;
  const b=bId?s.choices.find(x=>x.id===bId)||null:null;
  const p=pId?s.peace.find(x=>x.id===pId)||null:null;
 
@@ -229,12 +232,16 @@ function App(){
  ];
  const metricLabel=(k:keyof Metrics)=>({reach:t.metricReach,hostility:t.metricHostility,safety:t.metricSafety,trust:t.metricTrust}[k]);
 
- const reset=()=>{
+ const reset=(rotate=false)=>{
   localStorage.removeItem('ripple-results');
+  if(rotate){
+   const nextIds=rotateSessionIds(allIds);
+   setSessionIds(nextIds);
+  }
   setResults([]);setI(0);setBId(null);setPId(null);setSeen([]);setShield(0);setScreen('guide');
  };
  const resume=()=>{
-  if(results.length>=3){setScreen('results');return}
+  if(results.length>=scenarios.length){setScreen('results');return}
   setI(results.length);setBId(null);setPId(null);setSeen([]);setShield(0);setScreen('intro');
  };
  const save=()=>{
@@ -245,7 +252,7 @@ function App(){
   setScreen('complete');
  };
  const next=()=>{
-  if(i===2){track('session_complete',{screen:'results',session_score:score});setScreen('results')}
+  if(i===scenarios.length-1){track('session_complete',{screen:'results',session_score:score});setScreen('results')}
   else{setI(i+1);setBId(null);setPId(null);setSeen([]);setShield(0);setScreen('intro')}
  };
  const mm=(c:Choice)=>metrics(c);
@@ -274,10 +281,10 @@ function App(){
      <h1>{t.hero} <em>{t.heroAccent}</em></h1>
      <p>{t.heroBody}</p>
      <div className="actions">
-      <button className="primary" onClick={reset}>{t.start}<ArrowRight/></button>
+      <button className="primary" onClick={()=>reset(results.length>0)}>{t.start}<ArrowRight/></button>
       {results.length>0&&<button className="secondary" onClick={resume}>{t.resume}</button>}
      </div>
-     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span></div>
+     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span><span><RefreshCw/>{locale==='en'?'3 complete scenarios per session · 87-scenario library':'প্রতি সেশনে ৩টি সম্পূর্ণ দৃশ্য · ৮৭ দৃশ্যের লাইব্রেরি'}</span></div>
     </div>
     <div className="rings" aria-hidden="true"><i/><i/><i/><strong><Sparkles/></strong></div>
    </section>
@@ -323,6 +330,12 @@ function App(){
 
   {screen==='ripple'&&b&&<main className="wide">
    <span className="eyebrow">{t.ripple}</span><h2>{t.rippleTitle}</h2><p className="lead">{t.rippleBody}</p>
+   <div className="human-impact-card">
+      <span className="impact-kicker"><Heart/>{locale==='en'?'THE HUMAN COST':'মানুষের ওপর প্রভাব'}</span>
+      <h3>{locale==='en'?'One small action can leave the screen.':'ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।'}</h3>
+      <p>{s.human||b.body}</p>
+      <small>{locale==='en'?'Fictional composite · designed to show a plausible harm pathway, not predict an individual outcome.':'কাল্পনিক সমন্বিত দৃশ্য · সম্ভাব্য ক্ষতির পথ বোঝাতে তৈরি, কোনো ব্যক্তির বাস্তব ফলাফল ভবিষ্যদ্বাণী নয়।'}</small>
+   </div>
    <div className="outcome"><div className="timeline"><span>1</span><div><small>{t.click}</small><b>{b.label}</b></div><span>2</span><div><small>{t.network}</small><b>{b.title}</b></div><span className="human"><Heart/></span><div><small>{t.human}</small><b>{b.body}</b></div></div>
     <div className="metrics"><small><Info/>{t.indicators}</small>{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=>{const v=mm(b)[k],d=v-base[k],good=(k==='safety'||k==='trust')?d>=0:d<=0;return <div className="metric" key={k}><div><span>{metricLabel(k)}</span><b className={good?'good':'bad'}>{d>=0?'+':''}{d}</b></div><i><em style={{width:v+'%'}} className={good?'goodbg':'badbg'}/></i><small>{base[k]} → {v}</small></div>})}</div>
    </div>
@@ -353,7 +366,7 @@ function App(){
    <div className="success"><CheckCircle2/><span className="eyebrow">{t.scenario} {i+1} {t.complete}</span><h2>{t.completeTitle}</h2></div>
    <div className="compare">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
    <div className="switch"><div><small>MIRROR</small><b>{b.label}</b></div><ArrowRight/><div><small>PEACE</small><b>{p.label}</b></div></div>
-   <button className="primary" onClick={next}>{i===2?t.profileBtn:t.nextScenario}<ArrowRight/></button>
+   <button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button>
   </main>}
 
   {screen==='results'&&<main className="wide results">
@@ -362,7 +375,7 @@ function App(){
    <div className="dimensions">{dimensions.map((d,n)=><div key={d.label}><div><span>{'0'+(n+1)}</span><b>{d.label}</b><strong>{d.value}%</strong></div><i><em style={{width:d.value+'%'}}/></i></div>)}</div>
    <div className="resultcards">{scenarios.map((x,n)=><div key={x.id}><small>{t.scenario} {n+1}</small><b>{x.title}</b><strong>{results[n]||0}%</strong></div>)}</div>
    <div className="callout result-note"><Info/><p>{t.resultNote}</p></div>
-   <footer><div><b>#EveryClickRipples</b><small>{locale==='en'?'Every click has a consequence.':'প্রতিটি ক্লিকেরই পরিণতি আছে।'}</small></div><button className="secondary" onClick={reset}><RefreshCw/>{t.replay}</button></footer>
+   <footer><div><b>#EveryClickRipples</b><small>{locale==='en'?'Every click has a consequence.':'প্রতিটি ক্লিকেরই পরিণতি আছে।'}</small></div><button className="secondary" onClick={()=>reset(true)}><RefreshCw/>{t.replay}</button></footer>
   </main>}
  </div>;
 }
