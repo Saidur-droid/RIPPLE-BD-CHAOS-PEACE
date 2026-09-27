@@ -9,10 +9,12 @@
 As of 22 September 2026:
 - product concept and core learning loop are locked,
 - mobile-first React/TypeScript MVP is implemented,
-- all three fictional scenarios are implemented,
+- 87-scenario fictional library is implemented (3 flagship + 84 rotating variants),
+- each session serves exactly 3 complete scenarios and later sessions rotate where possible,
 - MIRROR decision capture is implemented,
 - Ripple Engine consequence flow is implemented,
 - human-consequence reflection is implemented,
+- dedicated human-cost spotlight is implemented to connect digital actions with plausible offline/reputational/social harm,
 - REWIND and PEACE retry flow are implemented,
 - Manipulation X-Ray is implemented,
 - SHIELD Mode is implemented,
