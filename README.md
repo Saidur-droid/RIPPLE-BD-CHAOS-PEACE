@@ -42,9 +42,9 @@ The repository should be the single source of truth. If chat discussion conflict
 ## MVP
 
 The first MVP is a **6–8 minute, mobile-first web experience** with:
-- three fictional Bangladesh-relevant scenarios,
+- an 87-scenario fictional library with 3 complete scenarios served per session,
 - baseline decision capture,
-- Ripple Engine,
+- Ripple Engine + explicit human-cost consequence storytelling,
 - REWIND,
 - SHIELD Mode,
 - Manipulation X-Ray,
