@@ -131,7 +131,7 @@ async function runFullJourney(page: Page, locale: 'en' | 'bn') {
   await expect(page.locator('.resultcards > div')).toHaveCount(3);
   await expect(page.locator('.orb strong')).not.toHaveText('0');
   if (locale === 'en') {
-    await expect(page.locator('.result-note')).toContainText('not a psychological assessment');
+    await expect(page.locator('.result-note')).toContainText('not a psychological diagnosis');
   } else {
     await expect(page.locator('.result-note')).toContainText('মনস্তাত্ত্বিক মূল্যায়ন');
   }
