@@ -27,19 +27,21 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
   await clickPrimary(page);
 
   // MIRROR -> RIPPLE with deliberately risky first choice.
+  await expect(page.locator('.realistic-feed')).toBeVisible();
+  await expect(page.locator('.social-attachment')).toBeVisible();
   await expect(page.locator('.mirror-choice').first()).toBeVisible();
   await assertNoHorizontalOverflow(page);
   await chooseFirst(page, '.mirror-choice');
 
   // Human consequence must be explicit.
-  const human = page.locator('.human-impact-card');
+  const human = page.locator('.impact-story');
   await expect(human).toBeVisible();
   await expect(human.locator('.impact-kicker')).toBeVisible();
   if (locale === 'en') {
-    await expect(human).toContainText('One small action can leave the screen.');
+    await expect(human).toContainText('Your first action made the situation harder for someone else.');
     await expect(human).toContainText('Fictional composite');
   } else {
-    await expect(human).toContainText('ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।');
+    await expect(human).toContainText('আপনার প্রথম কাজটি অন্য একজনের পরিস্থিতি আরও কঠিন করেছে।');
     await expect(human).toContainText('কাল্পনিক');
   }
   await assertNoHorizontalOverflow(page);
@@ -76,6 +78,7 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
 
   // COMPLETE -> next scenario / results
   await expect(page.locator('.success')).toBeVisible();
+  await expect(page.locator('.human-compare')).toBeVisible();
   await assertNoHorizontalOverflow(page);
   await clickPrimary(page);
 
@@ -94,13 +97,15 @@ async function runFullJourney(page: Page, locale: 'en' | 'bn') {
   await page.goto(path);
   await expect(page).toHaveTitle(/RIPPLE BD/);
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.trust')).toContainText('87');
+  await expect(page.locator('body')).not.toContainText('Nodi');
+  await expect(page.locator('body')).not.toContainText('নদী');
+  await expect(page.locator('.trust')).toContainText('3');
   await assertNoHorizontalOverflow(page);
 
   if (locale === 'bn') {
     await page.locator('.language-switch button').filter({ hasText: 'বাংলা' }).first().click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
-    await expect(page.locator('h1')).toContainText('প্রতিটি');
+    await expect(page.locator('h1')).toContainText('একটি ক্লিক');
   } else {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   }
