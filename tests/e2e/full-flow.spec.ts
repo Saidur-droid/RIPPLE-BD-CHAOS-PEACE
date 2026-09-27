@@ -49,7 +49,7 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
   await clickPrimary(page);
 
   // REFLECT -> REWIND
-  await expect(page.locator('blockquote')).toBeVisible();
+  await expect(page.locator('.person-story')).toBeVisible();
   await clickPrimary(page);
   const rewind = page.locator('.panel.rewind');
   await expect(rewind).toBeVisible();
