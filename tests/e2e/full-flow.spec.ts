@@ -26,8 +26,11 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
   await assertNoHorizontalOverflow(page);
   await clickPrimary(page);
 
-  // MIRROR -> RIPPLE with deliberately risky first choice.
+  // MIRROR shows a realistic but clearly fictional social post.
   await expect(page.locator('.mirror-choice').first()).toBeVisible();
+  await expect(page.locator('.social-post')).toBeVisible();
+  await expect(page.locator('.simulated-activity')).toBeVisible();
+  await expect(page.locator('.social-media-preview')).toContainText(locale === 'en' ? 'Fictional example' : 'কাল্পনিক উদাহরণ');
   await assertNoHorizontalOverflow(page);
   await chooseFirst(page, '.mirror-choice');
 
@@ -36,17 +39,17 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
   await expect(human).toBeVisible();
   await expect(human.locator('.impact-kicker')).toBeVisible();
   if (locale === 'en') {
-    await expect(human).toContainText('One small action can leave the screen.');
-    await expect(human).toContainText('Fictional composite');
+    await expect(human).toContainText('Your action pushed the harm further.');
+    await expect(human).toContainText('Fictional consequence pathway');
   } else {
-    await expect(human).toContainText('ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।');
+    await expect(human).toContainText('আপনার কাজটি ক্ষতিটা আরও এগিয়ে দিল।');
     await expect(human).toContainText('কাল্পনিক');
   }
   await assertNoHorizontalOverflow(page);
   await clickPrimary(page);
 
   // REFLECT -> REWIND
-  await expect(page.locator('blockquote')).toBeVisible();
+  await expect(page.locator('.person-story')).toBeVisible();
   await clickPrimary(page);
   const rewind = page.locator('.panel.rewind');
   await expect(rewind).toBeVisible();
@@ -74,8 +77,11 @@ async function completeScenario(page: Page, index: number, locale: 'en' | 'bn') 
     }
   }
 
-  // COMPLETE -> next scenario / results
+  // COMPLETE clearly compares first choice vs safer retry before metrics.
   await expect(page.locator('.success')).toBeVisible();
+  await expect(page.locator('.future-compare')).toBeVisible();
+  await expect(page.locator('.bad-future')).toBeVisible();
+  await expect(page.locator('.good-future')).toBeVisible();
   await assertNoHorizontalOverflow(page);
   await clickPrimary(page);
 
@@ -94,23 +100,26 @@ async function runFullJourney(page: Page, locale: 'en' | 'bn') {
   await page.goto(path);
   await expect(page).toHaveTitle(/RIPPLE BD/);
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.trust')).toContainText('87');
+  await expect(page.locator('.trust')).toContainText('3 complete scenarios');
   await assertNoHorizontalOverflow(page);
 
   if (locale === 'bn') {
     await page.locator('.language-switch button').filter({ hasText: 'বাংলা' }).first().click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
-    await expect(page.locator('h1')).toContainText('প্রতিটি');
+    await expect(page.locator('h1')).toContainText('একটি ছোট অনলাইন কাজ');
+    await expect(page.locator('.trust')).toContainText('৩টি সম্পূর্ণ দৃশ্য');
   } else {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   }
 
-  // Landing -> Guide -> Notice -> Scenario 1
-  await page.locator('.copy button.primary').click();
+  // Optional How it works explainer remains available and clear.
+  await page.locator('.copy button.secondary').click();
   await expect(page.locator('.guide-panel')).toBeVisible();
   await assertNoHorizontalOverflow(page);
-  await page.locator('.guide-footer button.primary').click();
+  await page.locator('.guide-footer button.secondary').click();
 
+  // Start -> Notice -> Scenario 1
+  await page.locator('.copy button.primary').click();
   await expect(page.locator('.notice')).toBeVisible();
   const consent = page.locator('.consent-card input');
   await expect(consent).not.toBeChecked();
@@ -160,7 +169,7 @@ test.describe('RIPPLE BD production journey', () => {
     test.skip(testInfo.project.name !== 'desktop-chromium', 'Rotation is browser-state logic; one desktop run is enough.');
     const first = await runFullJourney(page, 'en');
     await page.locator('main.results footer button.secondary').click();
-    await expect(page.locator('.guide-panel')).toBeVisible();
+    await expect(page.locator('.notice')).toBeVisible();
     const second = await page.evaluate(() =>
       JSON.parse(localStorage.getItem('ripple-session-scenarios-v2') || '[]')
     );
