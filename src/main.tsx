@@ -289,6 +289,11 @@ function App(){
     <div className="rings" aria-hidden="true"><i/><i/><i/><strong><Sparkles/></strong></div>
    </section>
    <div className="loop">{t.stages.map((x,n)=><span key={x}><small>{'0'+(n+1)}</small><b>{x}</b><em>{t.stageHelp[n]}</em></span>)}</div>
+   <section className="evidence-strip" aria-label={locale==='en'?'Bangladesh digital safety evidence':'বাংলাদেশের ডিজিটাল নিরাপত্তা তথ্য'}>
+    <div><strong>2 in 3</strong><span>{locale==='en'?'young respondents in a 2025 UNICEF Bangladesh U-Report poll said too much fake news / misinformation was their biggest social-media stressor.':'২০২৫ UNICEF Bangladesh U-Report poll-এ প্রতি ৩ জনে ২ জন তরুণ উত্তরদাতা অতিরিক্ত fake news / misinformation-কে social media-র সবচেয়ে বড় stressor বলেছেন।'}</span><small>{locale==='en'?'Nearly 29,000 respondents · UNICEF Bangladesh, 2025':'প্রায় ২৯,০০০ উত্তরদাতা · UNICEF Bangladesh, ২০২৫'}</small></div>
+    <div><strong>32%</strong><span>{locale==='en'?'of internet-using children in a UNICEF-commissioned Bangladesh study reported online bullying linked to appearance, exam results, religion or other reasons.':'UNICEF-commissioned Bangladesh study-তে ইন্টারনেট ব্যবহারকারী ৩২% শিশু চেহারা, পরীক্ষার ফল, ধর্ম বা অন্যান্য কারণে online bullying-এর কথা জানিয়েছে।'}</span><small>{locale==='en'?'N=1,281, ages 10–17 · study reported in 2019':'N=১,২৮১, বয়স ১০–১৭ · ২০১৯-এ প্রকাশিত সমীক্ষা'}</small></div>
+    <p>{locale==='en'?'RIPPLE trains the moment before a share, reaction or reply becomes part of that harm.':'RIPPLE সেই মুহূর্তটিই অনুশীলন করায়—যখন একটি share, reaction বা reply ক্ষতির অংশ হয়ে উঠতে পারে।'}</p>
+   </section>
   </main>}
 
   {screen==='guide'&&<main className="guide-page">
