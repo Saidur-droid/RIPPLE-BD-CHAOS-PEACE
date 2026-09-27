@@ -237,3 +237,23 @@ h2{max-width:900px;margin:0 0 14px;font-family:Georgia,"Times New Roman",serif;f
  .completion-page .complete-actions{pointer-events:auto!important}
  .completion-page .complete-actions .primary{pointer-events:auto!important}
 }
+
+/* Final completion interaction model: normal document flow, no layered hit areas. */
+.completion-page{pointer-events:auto!important;display:block}
+.completion-page .success,
+.completion-page .future-compare,
+.completion-page .complete-actions,
+.completion-page .completion-metrics,
+.completion-page .compact-metrics{pointer-events:auto!important}
+.complete-actions{position:static!important;display:flex!important;justify-content:flex-start!important;clear:both;margin:24px 0 0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;z-index:auto!important}
+.complete-actions .primary{position:static!important;pointer-events:auto!important;z-index:auto!important}
+.completion-metrics{margin:20px 0 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.018)}
+.completion-metrics summary{padding:13px 15px;color:#83978e;font-size:10px;cursor:pointer}
+.completion-metrics .compact-metrics{display:grid!important;margin:0!important;border:0;border-top:1px solid var(--line);border-radius:0;pointer-events:auto!important}
+@media(max-width:700px){
+ .completion-page{padding-bottom:64px}
+ .complete-actions{display:block!important;margin:22px 0 0!important}
+ .complete-actions .primary{display:flex!important;width:100%!important;min-height:56px}
+ .completion-metrics{margin-top:16px}
+ .completion-metrics .compact-metrics{display:none!important}
+}
