@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Sparkles,Users} from 'lucide-react';
+import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Users} from 'lucide-react';
 import './styles.css';
 import {hasAnalyticsConsent,setAnalyticsConsent,track} from './tracking';
 import {buildGeneratedScenarios,currentSessionIds,rotateSessionIds,type Locale,type Metrics,type Scenario,type Choice} from './scenarioEngine';
@@ -8,7 +8,7 @@ import {buildGeneratedScenarios,currentSessionIds,rotateSessionIds,type Locale,t
 const base:Metrics={reach:48,hostility:34,safety:70,trust:66};
 
 const scenariosEn:Scenario[]=[
-{id:'clip',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',human:'A fictional family closes their small shop early after threatening messages target people who share their community identity. Their teenage daughter is told not to travel alone that evening.',intro:'A dramatic clip is moving fast through Nodi. The caption is certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
+{id:'clip',family:'verify',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',human:'A fictional family closes their small shop early after threatening messages target people who share their community identity. Their teenage daughter is told not to travel alone that evening.',intro:'A dramatic clip is moving fast through group chats and public feeds. The caption sounds certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
 {id:'share',label:'Share now',helper:'Pass it on before it disappears',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'Speed beats context',body:'The clip reaches more feeds and comments shift from the event to broad claims about an entire community.'},
 {id:'comment',label:'Post an angry comment',helper:'Call the group out publicly',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'The frame hardens',body:'Your comment becomes social proof and replies repeat the same identity framing without checking the clip.'},
 {id:'verify',label:'Verify the source',helper:'Pause and look for original context',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'The spread slows',body:'You notice the clip begins mid-scene and the source remains unclear, so you do not amplify it.'},
@@ -23,7 +23,7 @@ xray:[
 {t:'Cropped context',s:'9 seconds only',b:'Short clips can hide what happened immediately before or after.'},
 {t:'Social proof',s:'713 shares',b:'Popularity can feel like evidence, but engagement does not verify a claim.'},
 {t:'Identity framing',s:'Whole-group blame',b:'A claim about an event can become a claim about an entire community.'}]},
-{id:'meme',title:'The Viral Meme',tag:'Cyberbullying · Gendered harassment',human:'Rima stops attending class for several days, deletes her public photos, and asks a friend to walk home with her because hostile DMs no longer feel confined to the screen.',intro:'A “joke” about a fictional student is becoming a pile-on. The crowd keeps making it harsher.',post:'A meme mocks fictional student Rima after a class presentation. Replies turn sexualized and a screenshot hints that hostile DMs have started.',prompt:'You know Rima casually. What is your first move?',choices:[
+{id:'meme',family:'bystander',title:'The Viral Meme',tag:'Cyberbullying · Gendered harassment',human:'Rima stops attending class for several days, deletes her public photos, and asks a friend to walk home with her because hostile DMs no longer feel confined to the screen.',intro:'A “joke” about a fictional student is becoming a pile-on. The crowd keeps making it harsher.',post:'A meme mocks fictional student Rima after a class presentation. Replies turn sexualized and a screenshot hints that hostile DMs have started.',prompt:'You know Rima casually. What is your first move?',choices:[
 {id:'laugh',label:'React with a laugh',helper:'It is “just a meme”',kind:'risk',delta:{reach:15,hostility:21,safety:-18,trust:-12},score:10,title:'The crowd reads approval',body:'Another reaction adds social proof and lowers the social cost for others to join.'},
 {id:'reshare',label:'Re-share it',helper:'Send it to another chat',kind:'risk',delta:{reach:26,hostility:24,safety:-23,trust:-17},score:4,title:'The target loses control of reach',body:'The meme escapes its original context and more strangers join in.'},
 {id:'ignore',label:'Keep scrolling',helper:'Stay out of it',kind:'neutral',delta:{reach:4,hostility:8,safety:-5,trust:-4},score:42,title:'You avoid adding harm',body:'The pile-on continues, but you do not make it worse.'},
@@ -39,7 +39,7 @@ xray:[
 {t:'Evidence vs recirculation',s:'Screenshot risk',b:'Preserve only what is needed. Do not spread harmful material as “evidence.”'},
 {t:'Escalation cue',s:'Hostile DMs',b:'Credible threats may require trusted or official support.'}],
 shield:['Recognize — name the behavior without blaming the target.','Support — check in privately and ask what the person wants.','Preserve — save only necessary evidence without recirculation.','Report — use the relevant platform or community pathway.','Escalate — credible threats may require trusted or official support.']},
-{id:'voice',title:'The Missing Voice',tag:'Source diversity · Inclusion',human:'A fictional young volunteer from the community receives angry messages demanding that she defend claims she never made, while outsiders keep defining her community for her.',intro:'A sweeping claim about a fictional minority community is everywhere. Everyone is speaking about them. Nobody from the community is quoted.',post:'“They do not want to integrate with the rest of us.” The post cites “people nearby” but gives no direct source, document or first-person voice.',prompt:'You are about to join the conversation. What do you do?',choices:[
+{id:'voice',family:'verify',title:'The Missing Voice',tag:'Source diversity · Inclusion',human:'A fictional young volunteer from the community receives angry messages demanding that she defend claims she never made, while outsiders keep defining her community for her.',intro:'A sweeping claim about a fictional minority community is everywhere. Everyone is speaking about them. Nobody from the community is quoted.',post:'“They do not want to integrate with the rest of us.” The post cites “people nearby” but gives no direct source, document or first-person voice.',prompt:'You are about to join the conversation. What do you do?',choices:[
 {id:'share',label:'Share the outsider take',helper:'It sounds plausible',kind:'risk',delta:{reach:18,hostility:15,safety:-11,trust:-18},score:18,title:'The claim becomes the default story',body:'Repetition makes an unsupported interpretation feel settled.'},
 {id:'stereo',label:'Add a stereotype',helper:'Generalize from what you heard',kind:'risk',delta:{reach:12,hostility:26,safety:-18,trust:-25},score:4,title:'A broad label replaces people',body:'The thread shifts from one claim to a fixed identity judgment.'},
 {id:'source',label:'Seek a primary source',helper:'Look for direct, relevant context',kind:'safe',delta:{reach:-4,hostility:-10,safety:10,trust:17},score:86,title:'The information gap becomes visible',body:'You notice the post has no direct evidence and no first-person source.'},
@@ -57,7 +57,7 @@ xray:[
 ];
 
 const scenariosBn:Scenario[]=[
-{id:'clip',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',human:'হুমকিমূলক বার্তায় একই পরিচয়ের মানুষদের টার্গেট করা শুরু হলে একটি কাল্পনিক পরিবার ছোট দোকানটি আগেই বন্ধ করে দেয়। তাদের কিশোরী মেয়েকে সেদিন একা বাইরে যেতে নিষেধ করা হয়।',intro:'নদীতে একটি ছোট ভিডিও দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
+{id:'clip',family:'verify',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',human:'হুমকিমূলক বার্তায় একই পরিচয়ের মানুষদের টার্গেট করা শুরু হলে একটি কাল্পনিক পরিবার ছোট দোকানটি আগেই বন্ধ করে দেয়। তাদের কিশোরী মেয়েকে সেদিন একা বাইরে যেতে নিষেধ করা হয়।',intro:'গ্রুপ চ্যাট ও পাবলিক ফিডে একটি ছোট ভিডিও দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
 {id:'share',label:'এখনই শেয়ার করব',helper:'হারিয়ে যাওয়ার আগে অন্যদেরও দেখাই',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'গতি তথ্যকে পেছনে ফেলল',body:'ভিডিওটি আরও বেশি মানুষের কাছে পৌঁছায় এবং আলোচনা ঘটনাটি যাচাই করার বদলে পুরো একটি গোষ্ঠীকে নিয়ে সাধারণীকরণের দিকে চলে যায়।'},
 {id:'comment',label:'রাগের মন্তব্য করব',helper:'পাবলিকভাবে প্রতিবাদ জানাই',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'উত্তেজনা আরও শক্ত হলো',body:'আপনার মন্তব্য অন্যদের কাছে “সবাই এমনই ভাবছে” ধরনের সংকেত তৈরি করে; যাচাই ছাড়াই একই পরিচয়ভিত্তিক ভাষা ছড়িয়ে পড়ে।'},
 {id:'verify',label:'উৎস যাচাই করব',helper:'থামি, মূল ভিডিও ও প্রেক্ষাপট খুঁজি',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'ছড়িয়ে পড়ার গতি কমল',body:'আপনি বুঝতে পারেন ভিডিওটি মাঝখান থেকে শুরু হয়েছে এবং মূল উৎস পরিষ্কার নয়—তাই অনিশ্চিত দাবিটি আর ছড়ান না।'},
@@ -73,7 +73,7 @@ xray:[
 {t:'সংখ্যার প্রভাব',s:'৭১৩ শেয়ার',b:'অনেক শেয়ার হওয়া সত্যতার প্রমাণ নয়; জনপ্রিয়তা ও যাচাই এক জিনিস নয়।'},
 {t:'পরিচয় দিয়ে ফ্রেম করা',s:'পুরো গোষ্ঠীকে দায়ী',b:'একটি ঘটনার দাবি খুব দ্রুত একটি পুরো সম্প্রদায় সম্পর্কে দাবিতে পরিণত হতে পারে।'}]},
 
-{id:'meme',title:'ভাইরাল মিম',tag:'সাইবার বুলিং · লিঙ্গভিত্তিক হয়রানি',human:'রিমা কয়েকদিন ক্লাসে যায় না, নিজের পাবলিক ছবি মুছে দেয় এবং শত্রুতাপূর্ণ DM আর শুধু স্ক্রিনে সীমাবদ্ধ থাকবে কি না—এই ভয়ে বন্ধুকে সঙ্গে নিয়ে বাসায় ফিরতে বলে।',intro:'একজন কাল্পনিক শিক্ষার্থীকে নিয়ে “মজা” এখন দলবদ্ধ অপমানে পরিণত হচ্ছে। মন্তব্যগুলো ক্রমেই কঠোর হচ্ছে।',post:'ক্লাস প্রেজেন্টেশনের পর কাল্পনিক শিক্ষার্থী রিমাকে নিয়ে একটি মিম ছড়িয়েছে। মন্তব্যগুলো যৌন ইঙ্গিতপূর্ণ হয়ে উঠেছে এবং একটি স্ক্রিনশটে শত্রুতাপূর্ণ ব্যক্তিগত মেসেজের ইঙ্গিত আছে।',prompt:'রিমাকে আপনি চেনেন। আপনার প্রথম পদক্ষেপ কী?',choices:[
+{id:'meme',family:'bystander',title:'ভাইরাল মিম',tag:'সাইবার বুলিং · লিঙ্গভিত্তিক হয়রানি',human:'রিমা কয়েকদিন ক্লাসে যায় না, নিজের পাবলিক ছবি মুছে দেয় এবং শত্রুতাপূর্ণ DM আর শুধু স্ক্রিনে সীমাবদ্ধ থাকবে কি না—এই ভয়ে বন্ধুকে সঙ্গে নিয়ে বাসায় ফিরতে বলে।',intro:'একজন কাল্পনিক শিক্ষার্থীকে নিয়ে “মজা” এখন দলবদ্ধ অপমানে পরিণত হচ্ছে। মন্তব্যগুলো ক্রমেই কঠোর হচ্ছে।',post:'ক্লাস প্রেজেন্টেশনের পর কাল্পনিক শিক্ষার্থী রিমাকে নিয়ে একটি মিম ছড়িয়েছে। মন্তব্যগুলো যৌন ইঙ্গিতপূর্ণ হয়ে উঠেছে এবং একটি স্ক্রিনশটে শত্রুতাপূর্ণ ব্যক্তিগত মেসেজের ইঙ্গিত আছে।',prompt:'রিমাকে আপনি চেনেন। আপনার প্রথম পদক্ষেপ কী?',choices:[
 {id:'laugh',label:'হাসির রিঅ্যাক্ট দেব',helper:'ভাবব—এটা তো “শুধু মিম”',kind:'risk',delta:{reach:15,hostility:21,safety:-18,trust:-12},score:10,title:'ভিড় এটাকে অনুমোদন হিসেবে নিল',body:'আরেকটি রিঅ্যাক্ট অন্যদেরও যোগ দেওয়ার সামাজিক বাধা কমিয়ে দেয়।'},
 {id:'reshare',label:'আরেক গ্রুপে পাঠাব',helper:'বন্ধুদের সঙ্গে “মজা” শেয়ার করি',kind:'risk',delta:{reach:26,hostility:24,safety:-23,trust:-17},score:4,title:'রিমা পোস্টটির নাগাল নিয়ন্ত্রণ হারাল',body:'মিমটি মূল জায়গার বাইরে যায় এবং আরও অপরিচিত মানুষ এতে যোগ দেয়।'},
 {id:'ignore',label:'স্ক্রল করে চলে যাব',helper:'নিজেকে এর বাইরে রাখি',kind:'neutral',delta:{reach:4,hostility:8,safety:-5,trust:-4},score:42,title:'আপনি ক্ষতি বাড়ালেন না',body:'দলবদ্ধ অপমান চলতে থাকে, তবে আপনার কারণে তা আর বাড়ে না।'},
@@ -96,7 +96,7 @@ shield:[
 'প্রয়োজনে বাড়তি সহায়তা নিন — বিশ্বাসযোগ্য হুমকি থাকলে বিশ্বস্ত বা আনুষ্ঠানিক সহায়তায় যান।'
 ]},
 
-{id:'voice',title:'অনুপস্থিত কণ্ঠ',human:'কমিউনিটির একজন কাল্পনিক তরুণ স্বেচ্ছাসেবক এমন দাবির জবাব দিতে রাগান্বিত বার্তা পায় যা সে কখনো করেনি, অথচ বাইরের লোকজন তার কমিউনিটির গল্প তার হয়ে বলে যেতে থাকে।',tag:'উৎসের বৈচিত্র্য · অন্তর্ভুক্তি',intro:'একটি কাল্পনিক সংখ্যালঘু সম্প্রদায়কে নিয়ে বড় একটি দাবি ছড়াচ্ছে। সবাই তাদের নিয়ে কথা বলছে—কিন্তু তাদের কারও সরাসরি বক্তব্য নেই।',post:'“ওরা আমাদের সঙ্গে মিশতে চায় না।” পোস্টটি “এলাকার লোকজন”কে উৎস হিসেবে উল্লেখ করেছে, কিন্তু কোনো সরাসরি সাক্ষ্য, নথি বা সংশ্লিষ্ট ব্যক্তির বক্তব্য নেই।',prompt:'আপনি আলোচনায় যোগ দিতে যাচ্ছেন। প্রথমে কী করবেন?',choices:[
+{id:'voice',family:'verify',title:'অনুপস্থিত কণ্ঠ',human:'কমিউনিটির একজন কাল্পনিক তরুণ স্বেচ্ছাসেবক এমন দাবির জবাব দিতে রাগান্বিত বার্তা পায় যা সে কখনো করেনি, অথচ বাইরের লোকজন তার কমিউনিটির গল্প তার হয়ে বলে যেতে থাকে।',tag:'উৎসের বৈচিত্র্য · অন্তর্ভুক্তি',intro:'একটি কাল্পনিক সংখ্যালঘু সম্প্রদায়কে নিয়ে বড় একটি দাবি ছড়াচ্ছে। সবাই তাদের নিয়ে কথা বলছে—কিন্তু তাদের কারও সরাসরি বক্তব্য নেই।',post:'“ওরা আমাদের সঙ্গে মিশতে চায় না।” পোস্টটি “এলাকার লোকজন”কে উৎস হিসেবে উল্লেখ করেছে, কিন্তু কোনো সরাসরি সাক্ষ্য, নথি বা সংশ্লিষ্ট ব্যক্তির বক্তব্য নেই।',prompt:'আপনি আলোচনায় যোগ দিতে যাচ্ছেন। প্রথমে কী করবেন?',choices:[
 {id:'share',label:'বাইরের ব্যাখ্যাটি শেয়ার করব',helper:'শুনতে বিশ্বাসযোগ্য লাগছে',kind:'risk',delta:{reach:18,hostility:15,safety:-11,trust:-18},score:18,title:'অনুমানটাই মূল গল্প হয়ে গেল',body:'একই কথা বারবার বলা হলে প্রমাণহীন ব্যাখ্যাও প্রতিষ্ঠিত সত্যের মতো মনে হতে শুরু করে।'},
 {id:'stereo',label:'একটি সাধারণীকরণ যোগ করব',helper:'যা শুনেছি তা পুরো গোষ্ঠীর ওপর বসাই',kind:'risk',delta:{reach:12,hostility:26,safety:-18,trust:-25},score:4,title:'মানুষের জায়গা নিল একটি লেবেল',body:'আলোচনা একটি দাবির বদলে পুরো পরিচয়কে বিচার করার দিকে চলে যায়।'},
 {id:'source',label:'প্রাথমিক উৎস খুঁজব',helper:'সরাসরি ও প্রাসঙ্গিক প্রমাণ খুঁজি',kind:'safe',delta:{reach:-4,hostility:-10,safety:10,trust:17},score:86,title:'তথ্যের ঘাটতি দৃশ্যমান হলো',body:'আপনি বুঝতে পারেন পোস্টটিতে সরাসরি প্রমাণও নেই, সংশ্লিষ্ট মানুষের কণ্ঠও নেই।'},
@@ -115,28 +115,28 @@ xray:[
 
 const ui={
  en:{
-  navMeta:'Fictional digital community · Bangladesh', hero:'Every click has a', heroAccent:'consequence.', heroBody:'Experience how online harm spreads. Rewind the moment. Practise a safer response. See what changed.',
-  start:'Enter Nodi', resume:'Continue', duration:'6–8 minutes', noLogin:'No login', privacy:'No sensitive story submission', cost:'৳0 software cost',
-  guideKicker:'Before you begin', guideTitle:'Three simple steps. That’s it.', guideBody:'You do not need to learn the interface. Just follow the numbers and make the choice that feels most natural to you.',
-  g1Title:'Choose naturally', g1Body:'On the first choice, pick what you would actually do. Do not try to guess the “correct” answer.',
-  g2Title:'See the ripple', g2Body:'RIPPLE shows how that decision changes reach, hostility, safety and trust inside the simulation.',
-  g3Title:'Rewind & retry', g3Body:'Return to the same moment, practise a safer response, then finish all three scenarios.',
-  guideCta:'Got it — continue', guideBack:'Back',
-  noticeKicker:'Before you enter Nodi', noticeTitle:'A safe simulation, not a real incident', noticeBody:'All scenarios are fictional composites. No real person, community or political actor is accused. You can exit any time, and no sensitive disclosure is required.',
-  n1:'No login or personal data',n2:'Scores describe in-app choices only',n3:'Simulation indicators are not real-world causal estimates',
-  consentTitle:'Share anonymous pilot usage data',consentBody:'Optional. We record only steps, choices, timing, completion and device class — never your name, phone, email, GPS or personal story.', noticeCta:'I understand — enter Nodi',
-  scenario:'Scenario', welcome:'Welcome to Nodi', welcomeBody:'A fictional digital community of 10,000 people. Your choices change what happens next.', seePost:'See the post',
-  mirror:'MIRROR · first instinct', mirrorHelp:'No score is shown yet. Choose what you would most naturally do.',
-  simulation:'SIMULATION', now:'now',
-  ripple:'RIPPLE ENGINE', rippleTitle:'One action. Multiple consequences.', rippleBody:'Watch how this simulation responds to your first decision.',
-  click:'Your click', network:'Network effect', human:'Human consequence', indicators:'Simulation indicators · not effect sizes', reflectBtn:'Reflect on what changed',
-  reflect:'REFLECT', reflectTitle:'What changed because of your action?', reflectNote:'The point is not to label a person “good” or “bad.” It is to make consequences visible enough to practise a different decision.', rewindBtn:'Rewind the moment',
-  rewind:'REWIND', rewindTitle:'You saw the ripple. Now change the first click.', rewindBody:'The timeline is yours again. Practise a response that protects context, people and trust.', peaceBtn:'Try the PEACE path',
-  peace:'PEACE · practise again', peaceTitle:'Choose a safer path.', peaceBody:'Safer responses can have trade-offs. The goal is evidence-informed practice.',
-  xray:'MANIPULATION X-RAY', xrayTitle:'Make invisible cues visible.', xrayBody:'Tap at least one signal to inspect it.', inspect:'Tap to inspect this signal.', signals:'signals inspected', continue:'Continue',
-  shield:'SHIELD MODE', shieldTitle:'Turn support into a safer sequence.', shieldBody:'Educational guidance — not emergency support.', step:'STEP', of:'OF', back:'Back', finishShield:'Finish SHIELD', nextStep:'Next step',
-  complete:'COMPLETE', completeTitle:'The first click changed. So did the ripple.', safer:'safer direction', nextScenario:'Continue to next scenario', profileBtn:'See my Digital Reflex Profile',
-  profile:'DIGITAL REFLEX PROFILE', strong:'Strong peacebuilding reflexes', developing:'Developing strong reflexes', growing:'Growing digital awareness', profileBody:'A transparent learning summary based only on choices made inside this simulation.',
+  navMeta:'Interactive digital safety practice · Bangladesh', hero:'A small online action can', heroAccent:'hurt — or protect someone.', heroBody:'See a realistic social-media situation, make the choice you would actually make, then see who is affected. Rewind it and try a safer response.',
+  start:'Start', resume:'Continue session', howItWorks:'How it works', duration:'6–8 minutes', noLogin:'No login', privacy:'No personal story required', cost:'৳0 software cost',
+  guideKicker:'How it works', guideTitle:'See it. See the impact. Redo it better.', guideBody:'You will complete three short fictional scenarios. The goal is not to guess a perfect answer — it is to see how a small digital action can affect a real person’s safety, reputation or daily life.',
+  g1Title:'See a realistic post', g1Body:'Read a fictional post designed to feel like the situations people meet in feeds, group chats and campus communities.',
+  g2Title:'See who gets affected', g2Body:'Your first action leads to a clear human consequence. Small simulation indicators support the story; they are not real-world predictions.',
+  g3Title:'Redo the moment', g3Body:'Rewind to the same post, choose a safer action, then compare the two outcomes side by side.',
+  guideCta:'Start the scenarios', guideBack:'Back',
+  noticeKicker:'Before you start', noticeTitle:'Fictional practice, real-world patterns', noticeBody:'Every scenario is fictional or fictionalized. No real person is depicted, and simulated activity numbers are not real data. The situations are inspired by common patterns of online harm.',
+  n1:'No login or personal data',n2:'Scenario activity is simulated',n3:'Impact indicators are learning aids, not predictions',
+  consentTitle:'Share anonymous pilot usage data',consentBody:'Optional. We record only steps, choices, timing, completion and device class — never your name, phone, email, GPS or personal story.', noticeCta:'Start scenario 1',
+  scenario:'Scenario', welcome:'Three scenarios. One simple question.', welcomeBody:'What would you actually do when a risky post appears on your screen?', seePost:'See the post',
+  mirror:'YOUR FIRST MOVE', mirrorHelp:'Choose what you would actually do first. No score is shown yet.',
+  simulation:'FICTIONAL PRACTICE POST', now:'2m',
+  ripple:'WHAT HAPPENED NEXT', rippleTitle:'Your action changed what happened next.', rippleBody:'First see the human impact. The small indicators underneath are only there to support the story.',
+  click:'Your first action', network:'What spread online', human:'Who felt it offline', indicators:'Supporting simulation indicators · not real-world effect sizes', reflectBtn:'See who was affected',
+  reflect:'WHO WAS AFFECTED', reflectTitle:'The harm does not stay on the screen.', reflectNote:'This is a fictional consequence pathway. It shows a plausible way online amplification can affect a person’s safety, reputation, study, work, relationships or daily movement.', rewindBtn:'Try that moment again',
+  rewind:'TRY THE MOMENT AGAIN', rewindTitle:'Same post. Better choice.', rewindBody:'Go back to the exact decision point. This time, choose an action that reduces spread, protects the person affected, or adds verified context.', peaceBtn:'Choose a safer action',
+  peace:'SAFER RETRY', peaceTitle:'What would you do differently now?', peaceBody:'Choose the response that best reduces harm while protecting context, evidence and the person affected.',
+  xray:'WHY THIS POST DESERVES A PAUSE', xrayTitle:'Spot the warning signs.', xrayBody:'Open at least one signal. These are the cues that should slow a share, reaction or reply.', inspect:'Open to see why this matters.', signals:'signals checked', continue:'See the outcome',
+  shield:'SUPPORT SAFELY', shieldTitle:'If a person is being targeted, what helps?', shieldBody:'A simple support sequence for practice — not emergency guidance.', step:'STEP', of:'OF', back:'Back', finishShield:'Finish support steps', nextStep:'Next step',
+  complete:'DONE', completeTitle:'Now compare the two futures.', safer:'after safer retry', nextScenario:'Next scenario', profileBtn:'See what I practised',
+  profile:'YOUR SESSION SUMMARY', strong:'Strong safer-choice practice', developing:'Safer digital habits are developing', growing:'You are building safer digital habits', profileBody:'A learning summary based only on the three choices you made inside this practice session.',
   sessionScore:'Session score', reflexes:'YOUR FIVE REFLEXES', higher:'Higher = safer in-session choices',
   d1:'Verify before sharing',d2:'Manipulation detection',d3:'Bystander response',d4:'Target support',d5:'De-escalation',
   resultNote:'This score is an in-session learning indicator — not a psychological diagnosis, validated impact estimate or pilot result. Submission evidence must come from a separate consented pilot.',
@@ -144,28 +144,28 @@ const ui={
   stages:['MIRROR','RIPPLE','REWIND','PEACE','REFLECT'], stageHelp:['Choose naturally','See what changes','Return to the moment','Practise a safer path','Leave with a reflex']
  },
  bn:{
-  navMeta:'কাল্পনিক ডিজিটাল কমিউনিটি · বাংলাদেশ', hero:'প্রতিটি ক্লিকেরই', heroAccent:'পরিণতি আছে।', heroBody:'অনলাইনে ক্ষতি কীভাবে ছড়ায় দেখুন। একই মুহূর্তে ফিরে যান, আরও নিরাপদ প্রতিক্রিয়া অনুশীলন করুন, তারপর দেখুন কী বদলেছে।',
-  start:'নদীতে প্রবেশ করুন', resume:'চালিয়ে যান', duration:'৬–৮ মিনিট', noLogin:'লগইন লাগবে না', privacy:'ব্যক্তিগত গল্প দিতে হবে না', cost:'৳০ সফটওয়্যার খরচ',
-  guideKicker:'শুরু করার আগে', guideTitle:'মাত্র ৩টি ধাপ। খুব সহজ।', guideBody:'ইন্টারফেস শেখার দরকার নেই। শুধু ১–২–৩ অনুসরণ করুন এবং প্রথম সিদ্ধান্তে বাস্তবে যা করতেন সেটিই বেছে নিন।',
-  g1Title:'নিজের মতো সিদ্ধান্ত নিন', g1Body:'প্রথমবার বাস্তবে যা করতেন সেটিই বেছে নিন। “সঠিক উত্তর” আন্দাজ করার চেষ্টা করবেন না।',
-  g2Title:'প্রভাব দেখুন', g2Body:'আপনার সিদ্ধান্তে নাগাল, উত্তেজনা, নিরাপত্তা ও আস্থা কীভাবে বদলায়—RIPPLE তা দেখাবে।',
-  g3Title:'ফিরে গিয়ে আবার চেষ্টা করুন', g3Body:'একই মুহূর্তে ফিরে গিয়ে আরও নিরাপদ প্রতিক্রিয়া অনুশীলন করুন। এভাবে ৩টি দৃশ্য শেষ করুন।',
-  guideCta:'বুঝেছি — এগিয়ে যাই', guideBack:'ফিরে যান',
-  noticeKicker:'নদীতে ঢোকার আগে', noticeTitle:'এটি নিরাপদ অনুশীলন — বাস্তব ঘটনা নয়', noticeBody:'সব দৃশ্যই কাল্পনিক। কোনো বাস্তব ব্যক্তি, সম্প্রদায় বা রাজনৈতিক পক্ষকে অভিযুক্ত করা হয়নি। যেকোনো সময় বের হতে পারবেন, এবং কোনো সংবেদনশীল ব্যক্তিগত তথ্য দিতে হবে না।',
-  n1:'লগইন বা ব্যক্তিগত তথ্য লাগবে না',n2:'স্কোর শুধু এই অ্যাপের সিদ্ধান্ত বোঝায়',n3:'সিমুলেশন সূচক বাস্তব জগতের প্রভাবের মাপ নয়',
-  consentTitle:'নামবিহীন pilot usage data শেয়ার করতে রাজি',consentBody:'ঐচ্ছিক। শুধু ধাপ, পছন্দ, সময়, completion ও device class রেকর্ড হবে — নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নয়।', noticeCta:'বুঝেছি — নদীতে প্রবেশ করি',
-  scenario:'দৃশ্য', welcome:'নদীতে স্বাগতম', welcomeBody:'১০,০০০ মানুষের একটি কাল্পনিক ডিজিটাল কমিউনিটি। আপনার সিদ্ধান্তে পরের ঘটনা বদলাবে।', seePost:'পোস্টটি দেখুন',
-  mirror:'MIRROR · প্রথম সিদ্ধান্ত', mirrorHelp:'এখনো কোনো স্কোর দেখানো হচ্ছে না। বাস্তবে যা করতেন সেটিই বেছে নিন।',
-  simulation:'সিমুলেশন', now:'এখন',
-  ripple:'RIPPLE ENGINE', rippleTitle:'একটি সিদ্ধান্ত, একাধিক প্রভাব।', rippleBody:'আপনার প্রথম সিদ্ধান্তে সিমুলেশন কীভাবে বদলায় দেখুন।',
-  click:'আপনার সিদ্ধান্ত', network:'অনলাইনে ছড়িয়ে পড়ার প্রভাব', human:'মানুষের ওপর প্রভাব', indicators:'সিমুলেশন সূচক · বাস্তব effect size নয়', reflectBtn:'কী বদলেছে দেখি',
-  reflect:'REFLECT', reflectTitle:'আপনার সিদ্ধান্তের কারণে কী বদলেছে?', reflectNote:'উদ্দেশ্য কাউকে “ভালো” বা “খারাপ” বলা নয়। উদ্দেশ্য হলো পরিণতি এতটা পরিষ্কার করা, যাতে নতুন সিদ্ধান্ত অনুশীলন করা যায়।', rewindBtn:'মুহূর্তে ফিরে যান',
-  rewind:'REWIND', rewindTitle:'আপনার ক্লিক স্ক্রিনের বাইরে চলে গেছে। মুহূর্তটা ফিরিয়ে নিন।', rewindBody:'সিমুলেশনে পরিণতি ঘটেছে। এবার ঠিক সেই সিদ্ধান্তের মুহূর্তে ফিরে গিয়ে প্রেক্ষাপট, মানুষ ও আস্থা রক্ষা করে এমন প্রতিক্রিয়া অনুশীলন করুন।', peaceBtn:'PEACE পথে আবার চেষ্টা করুন',
-  peace:'PEACE · দ্বিতীয় চেষ্টা', peaceTitle:'আরও নিরাপদ পথ বেছে নিন।', peaceBody:'নিরাপদ প্রতিক্রিয়াতেও কিছু সমঝোতা থাকতে পারে। লক্ষ্য হলো তথ্যভিত্তিক অনুশীলন।',
-  xray:'MANIPULATION X-RAY', xrayTitle:'লুকানো সংকেতগুলো দৃশ্যমান করুন।', xrayBody:'অন্তত একটি সংকেত খুলে দেখুন।', inspect:'কেন এটি গুরুত্বপূর্ণ জানতে খুলুন।', signals:'টি সংকেত দেখা হয়েছে', continue:'এগিয়ে যান',
-  shield:'SHIELD MODE', shieldTitle:'সহায়তাকে ধাপে ধাপে নিরাপদ করুন।', shieldBody:'এটি শেখার নির্দেশনা — জরুরি সহায়তা নয়।', step:'ধাপ', of:'এর মধ্যে', back:'পেছনে', finishShield:'SHIELD শেষ করুন', nextStep:'পরের ধাপ',
-  complete:'সম্পন্ন', completeTitle:'প্রথম সিদ্ধান্ত বদলেছে — তার সঙ্গে বদলেছে প্রভাবও।', safer:'আরও নিরাপদ দিক', nextScenario:'পরের দৃশ্যে যান', profileBtn:'আমার Digital Reflex Profile দেখুন',
-  profile:'DIGITAL REFLEX PROFILE', strong:'দায়িত্বশীল ডিজিটাল সিদ্ধান্তে শক্তিশালী অভ্যাস', developing:'দায়িত্বশীল ডিজিটাল অভ্যাস গড়ে উঠছে', growing:'ডিজিটাল সচেতনতা তৈরি হচ্ছে', profileBody:'এই প্রোফাইল শুধু এই সেশনে আপনার নেওয়া সিদ্ধান্তগুলোর শেখার সারাংশ।',
+  navMeta:'ইন্টার‍্যাকটিভ ডিজিটাল সেফটি প্র্যাকটিস · বাংলাদেশ', hero:'একটি ছোট অনলাইন কাজ কাউকে', heroAccent:'ক্ষতি করতে পারে — আবার রক্ষা করতেও পারে।', heroBody:'বাস্তব সামাজিক-মাধ্যমের মতো একটি পরিস্থিতি দেখুন, নিজের মতো সিদ্ধান্ত নিন, তারপর দেখুন সেই সিদ্ধান্তে কার ওপর কী প্রভাব পড়ে। একই মুহূর্তে ফিরে গিয়ে আরও নিরাপদভাবে আবার চেষ্টা করুন।',
+  start:'শুরু করুন', resume:'সেশন চালিয়ে যান', howItWorks:'কীভাবে কাজ করে', duration:'৬–৮ মিনিট', noLogin:'লগইন লাগবে না', privacy:'ব্যক্তিগত গল্প দিতে হবে না', cost:'৳০ সফটওয়্যার খরচ',
+  guideKicker:'কীভাবে কাজ করে', guideTitle:'দেখুন। প্রভাব বুঝুন। আবার ভালোভাবে করুন।', guideBody:'আপনি ৩টি ছোট কাল্পনিক দৃশ্য শেষ করবেন। লক্ষ্য “সঠিক উত্তর” আন্দাজ করা নয়—ছোট একটি অনলাইন কাজ কীভাবে কারও নিরাপত্তা, সুনাম বা দৈনন্দিন জীবনে প্রভাব ফেলতে পারে তা পরিষ্কারভাবে দেখা।',
+  g1Title:'বাস্তবের মতো পোস্ট দেখুন', g1Body:'ফিড, গ্রুপ চ্যাট বা ক্যাম্পাস কমিউনিটিতে দেখা যায়—এমন পরিস্থিতির মতো একটি কাল্পনিক পোস্ট পড়ুন।',
+  g2Title:'কার ওপর প্রভাব পড়ল দেখুন', g2Body:'আপনার প্রথম কাজের পর স্পষ্ট মানবিক পরিণতি দেখানো হবে। ছোট সিমুলেশন সূচকগুলো শুধু ব্যাখ্যায় সহায়তা করবে; এগুলো বাস্তব ভবিষ্যদ্বাণী নয়।',
+  g3Title:'মুহূর্তটা আবার করুন', g3Body:'একই পোস্টে ফিরে গিয়ে আরও নিরাপদ সিদ্ধান্ত নিন, তারপর দুই ফলাফল পাশাপাশি তুলনা করুন।',
+  guideCta:'দৃশ্যগুলো শুরু করুন', guideBack:'ফিরে যান',
+  noticeKicker:'শুরু করার আগে', noticeTitle:'কাল্পনিক অনুশীলন, বাস্তব জীবনের পরিচিত ধরণ', noticeBody:'প্রতিটি দৃশ্য কাল্পনিক বা কাল্পনিকভাবে পুনর্গঠিত। কোনো বাস্তব ব্যক্তিকে দেখানো হয়নি এবং activity সংখ্যা বাস্তব data নয়। পরিস্থিতিগুলো অনলাইনে দেখা সাধারণ ক্ষতির ধরণ থেকে অনুপ্রাণিত।',
+  n1:'লগইন বা ব্যক্তিগত তথ্য লাগবে না',n2:'পোস্টের activity সংখ্যা সিমুলেটেড',n3:'Impact সূচক শেখার সহায়ক, ভবিষ্যদ্বাণী নয়',
+  consentTitle:'নামবিহীন pilot usage data শেয়ার করতে রাজি',consentBody:'ঐচ্ছিক। শুধু ধাপ, পছন্দ, সময়, completion ও device class রেকর্ড হবে — নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নয়।', noticeCta:'দৃশ্য ১ শুরু করুন',
+  scenario:'দৃশ্য', welcome:'৩টি দৃশ্য। একটাই সহজ প্রশ্ন।', welcomeBody:'ঝুঁকিপূর্ণ একটি পোস্ট আপনার স্ক্রিনে এলে আপনি আসলে কী করতেন?', seePost:'পোস্টটি দেখুন',
+  mirror:'আপনার প্রথম কাজ', mirrorHelp:'প্রথমে আপনি বাস্তবে যা করতেন সেটিই বেছে নিন। এখন কোনো স্কোর দেখানো হচ্ছে না।',
+  simulation:'কাল্পনিক প্র্যাকটিস পোস্ট', now:'২ মিনিট',
+  ripple:'এরপর কী হলো', rippleTitle:'আপনার কাজের পর ঘটনাটা বদলে গেল।', rippleBody:'প্রথমে মানুষের ওপর প্রভাব দেখুন। নিচের ছোট সূচকগুলো শুধু গল্পটি বুঝতে সাহায্য করবে।',
+  click:'আপনার প্রথম কাজ', network:'অনলাইনে কী ছড়াল', human:'স্ক্রিনের বাইরে কে প্রভাবিত হলো', indicators:'সহায়ক সিমুলেশন সূচক · বাস্তব effect size নয়', reflectBtn:'কার ওপর প্রভাব পড়ল দেখি',
+  reflect:'কার ওপর প্রভাব পড়ল', reflectTitle:'ক্ষতি শুধু স্ক্রিনে থেমে থাকে না।', reflectNote:'এটি একটি কাল্পনিক consequence pathway। অনলাইনে ছড়িয়ে পড়া কীভাবে কারও নিরাপত্তা, সুনাম, পড়াশোনা, কাজ, সম্পর্ক বা দৈনন্দিন চলাচলে প্রভাব ফেলতে পারে—তা বোঝাতে এটি তৈরি।', rewindBtn:'মুহূর্তটা আবার চেষ্টা করুন',
+  rewind:'মুহূর্তটা আবার চেষ্টা করুন', rewindTitle:'একই পোস্ট। এবার আরও ভালো সিদ্ধান্ত।', rewindBody:'ঠিক সেই সিদ্ধান্তের জায়গায় ফিরে যান। এবার এমন একটি কাজ বেছে নিন যা ছড়িয়ে পড়া কমায়, আক্রান্ত ব্যক্তিকে রক্ষা করে বা যাচাইকৃত প্রেক্ষাপট যোগ করে।', peaceBtn:'আরও নিরাপদ কাজ বেছে নিন',
+  peace:'আরও নিরাপদ দ্বিতীয় চেষ্টা', peaceTitle:'এবার আপনি কী আলাদা করবেন?', peaceBody:'যে প্রতিক্রিয়া ক্ষতি কমায় এবং প্রেক্ষাপট, প্রমাণ ও আক্রান্ত ব্যক্তির নিয়ন্ত্রণ রক্ষা করে—সেটি বেছে নিন।',
+  xray:'কেন এই পোস্টে থামা দরকার', xrayTitle:'সতর্কতার সংকেতগুলো খুঁজুন।', xrayBody:'অন্তত একটি সংকেত খুলুন। এগুলোই share, reaction বা reply দেওয়ার আগে থামার কারণ।', inspect:'কেন গুরুত্বপূর্ণ দেখুন।', signals:'টি সংকেত দেখা হয়েছে', continue:'ফলাফল দেখুন',
+  shield:'নিরাপদভাবে সহায়তা করুন', shieldTitle:'কেউ টার্গেট হলে কীভাবে সাহায্য করবেন?', shieldBody:'সহায়তার সহজ অনুশীলন — জরুরি নির্দেশনা নয়।', step:'ধাপ', of:'এর মধ্যে', back:'পেছনে', finishShield:'সহায়তার ধাপ শেষ করুন', nextStep:'পরের ধাপ',
+  complete:'শেষ', completeTitle:'এখন দুই ফলাফল পাশাপাশি দেখুন।', safer:'নিরাপদ দ্বিতীয় সিদ্ধান্তের পর', nextScenario:'পরের দৃশ্য', profileBtn:'আমি কী অনুশীলন করেছি দেখুন',
+  profile:'আপনার সেশন সারাংশ', strong:'নিরাপদ সিদ্ধান্তের শক্তিশালী অনুশীলন', developing:'নিরাপদ ডিজিটাল অভ্যাস গড়ে উঠছে', growing:'আপনি নিরাপদ ডিজিটাল অভ্যাস তৈরি করছেন', profileBody:'এই সারাংশ শুধু এই সেশনের ৩টি অনুশীলনের সিদ্ধান্তের ওপর ভিত্তি করে।',
   sessionScore:'সেশন স্কোর', reflexes:'আপনার ৫টি ডিজিটাল রিফ্লেক্স', higher:'বেশি স্কোর = এই সেশনে তুলনামূলক নিরাপদ সিদ্ধান্ত',
   d1:'শেয়ার করার আগে যাচাই',d2:'প্রভাবিত করার কৌশল শনাক্ত',d3:'দর্শক হিসেবে দায়িত্বশীল প্রতিক্রিয়া',d4:'আক্রান্ত ব্যক্তিকে সহায়তা',d5:'উত্তেজনা কমানো',
   resultNote:'এটি শুধু এই সেশনের শেখার সূচক — মনস্তাত্ত্বিক মূল্যায়ন, বৈজ্ঞানিকভাবে যাচাইকৃত প্রভাব বা pilot result নয়।',
@@ -176,6 +176,74 @@ const ui={
 
 const clamp=(n:number)=>Math.max(0,Math.min(100,n));
 const metrics=(c:Choice):Metrics=>({reach:clamp(base.reach+(c.delta.reach||0)),hostility:clamp(base.hostility+(c.delta.hostility||0)),safety:clamp(base.safety+(c.delta.safety||0)),trust:clamp(base.trust+(c.delta.trust||0))});
+const stableCount=(id:string,offset:number,span:number)=>{
+ let h=0;for(const ch of id)h=(h*31+ch.charCodeAt(0))>>>0;
+ return offset+(h%span);
+};
+
+const socialMeta=(s:Scenario,locale:Locale)=>{
+ const bn=locale==='bn';
+ const family=s.family||'verify';
+ const map={
+  privacy:{name:bn?'কমিউনিটি গ্রুপ':'Community Group',handle:'@community_group',warning:bn?'ব্যক্তিগত তথ্য দেখা যাচ্ছে':'PRIVATE INFO VISIBLE',initial:'C'},
+  bystander:{name:bn?'ক্যাম্পাস ফিড':'Campus Feed',handle:'@campus_feed',warning:bn?'একজন মানুষকে টার্গেট করা হয়েছে':'PERSON BEING TARGETED',initial:'F'},
+  deescalate:{name:bn?'লোকাল আপডেট':'Local Updates',handle:'@local_updates',warning:bn?'গোষ্ঠীকে দোষ দেওয়া হচ্ছে':'GROUP BLAME',initial:'L'},
+  synthetic:{name:bn?'ট্রেন্ডিং ক্লিপ':'Trending Clip',handle:'@trending_clip',warning:bn?'মিডিয়ার সত্যতা পরিষ্কার নয়':'MEDIA AUTHENTICITY UNCLEAR',initial:'T'},
+  verify:{name:bn?'পাবলিক আপডেট':'Public Update',handle:'@public_update',warning:bn?'উৎস যাচাই করা হয়নি':'SOURCE NOT VERIFIED',initial:'P'}
+ } as const;
+ return map[family as keyof typeof map]||map.verify;
+};
+
+const impactPoints=(s:Scenario,c:Choice,locale:Locale,better=false)=>{
+ const bn=locale==='bn';
+ const family=s.family||'verify';
+ if(better){
+  const common=[
+   bn?'আপনি আরেকটি কপি ছড়িয়ে দেননি।':'You did not add another copy of the harmful or unverified content.',
+   bn?'মানুষকে থামতে, যাচাই করতে বা নিরাপদভাবে সহায়তা করতে একটি স্পষ্ট পথ দেওয়া হয়েছে।':'You created a clear reason for others to pause, verify or support the person safely.',
+   bn?'আক্রান্ত ব্যক্তি পরের পদক্ষেপে বেশি নিয়ন্ত্রণ রাখতে পারে।':'The person affected keeps more control over what happens next.'
+  ];
+  if(family==='privacy')common[1]=bn?'ব্যক্তিগত তথ্য আর ছড়ানোর বদলে রিপোর্ট/সতর্ক করার পথ বেছে নেওয়া হয়েছে।':'Instead of recirculating private information, the safer path reports it or warns others not to spread it.';
+  if(family==='bystander')common[1]=bn?'ভিড়ের অপমানকে আরেকটি reaction না দিয়ে আক্রান্ত ব্যক্তিকে সহায়তা করা হয়েছে।':'Instead of rewarding the pile-on with another reaction, the safer path supports the person targeted.';
+  if(family==='deescalate')common[1]=bn?'গোষ্ঠীকে দোষ না দিয়ে নির্দিষ্ট দাবি ও প্রমাণ আলাদা করা হয়েছে।':'The safer path separates the specific claim from group blame and asks for evidence.';
+  return common;
+ }
+ if(c.kind!=='risk'){
+  return [
+   bn?'আপনার কাজটি ক্ষতিকর পোস্টের ছড়িয়ে পড়া বাড়ায়নি।':'Your action did not add another major push to the harmful post.',
+   bn?'তবু পোস্টটি অন্যদের মাধ্যমে চলতে পারে—তাই পরের পদক্ষেপ গুরুত্বপূর্ণ।':'The post can still keep moving through other people, so the next step still matters.',
+   bn?(s.human||c.body):('Possible human effect: '+(s.human||c.body))
+  ];
+ }
+ const byFamily={
+  privacy:[
+   bn?'ব্যক্তিগত তথ্য আরও বেশি মানুষের সামনে পৌঁছাতে পারে।':'Private information can reach more people.',
+   bn?'অপরিচিতরা ফোন, মেসেজ বা লোকেশন ব্যবহার করে ব্যক্তিটিকে টার্গেট করতে পারে।':'Strangers can use a phone number, screenshot or location detail to target the person.',
+   bn?(s.human||c.body):('Human consequence: '+(s.human||c.body))
+  ],
+  bystander:[
+   bn?'আরেকটি share/reaction ভিড়কে জানায় যে অপমানটি গ্রহণযোগ্য।':'Another share or reaction tells the crowd the pile-on is acceptable.',
+   bn?'পোস্টটি মূল গ্রুপের বাইরে গিয়ে আরও অপরিচিত মানুষের কাছে পৌঁছাতে পারে।':'The post can escape the original group and reach more strangers.',
+   bn?(s.human||c.body):('Human consequence: '+(s.human||c.body))
+  ],
+  deescalate:[
+   bn?'একটি নির্দিষ্ট ঘটনাকে পুরো গোষ্ঠীর দোষ হিসেবে ছড়িয়ে দেওয়া হয়।':'A specific incident can turn into blame against an entire group.',
+   bn?'রাগ ও মুখোমুখি হওয়ার ভাষা আরও মানুষকে উত্তেজিত করতে পারে।':'Angry replies can pull more people into confrontation.',
+   bn?(s.human||c.body):('Human consequence: '+(s.human||c.body))
+  ],
+  synthetic:[
+   bn?'পরিচিত মুখ বা নাটকীয় মিডিয়া যাচাইয়ের আগেই বিশ্বাস তৈরি করতে পারে।':'A familiar face or dramatic media can create trust before verification.',
+   bn?'শেয়ার করলে ভুয়া বা বদলানো মিডিয়ার নাগাল দ্রুত বাড়ে।':'Sharing can rapidly increase the reach of fake or manipulated media.',
+   bn?(s.human||c.body):('Human consequence: '+(s.human||c.body))
+  ],
+  verify:[
+   bn?'অযাচাইকৃত দাবিটি আরও মানুষের কাছে সত্যের মতো পৌঁছায়।':'The unverified claim reaches more people as if it were already true.',
+   bn?'অন্যরা অসম্পূর্ণ তথ্যের ওপর ভিত্তি করে সিদ্ধান্ত নিতে শুরু করতে পারে।':'Other people can start making decisions based on incomplete context.',
+   bn?(s.human||c.body):('Human consequence: '+(s.human||c.body))
+  ]
+ } as const;
+ return [...(byFamily[family as keyof typeof byFamily]||byFamily.verify)];
+};
 
 function LanguageSwitch({locale,onChange}:{locale:Locale;onChange:(l:Locale)=>void}){
  return <div className="language-switch" aria-label="Language">
@@ -238,7 +306,7 @@ function App(){
    const nextIds=rotateSessionIds(allIds);
    setSessionIds(nextIds);
   }
-  setResults([]);setI(0);setBId(null);setPId(null);setSeen([]);setShield(0);setScreen('guide');
+  setResults([]);setI(0);setBId(null);setPId(null);setSeen([]);setShield(0);setScreen('notice');
  };
  const resume=()=>{
   if(results.length>=scenarios.length){setScreen('results');return}
@@ -273,26 +341,42 @@ function App(){
   {screen==='landing'&&<main className="landing">
    <nav className="landing-nav">
     <div className="brand"><span className="logo">◎</span><div><b>RIPPLE BD</b><small>CHAOS → PEACE</small></div></div>
-    <div className="nav-actions"><LanguageSwitch locale={locale} onChange={setLocale}/><span className="cost-pill">{t.cost}</span></div>
+    <div className="nav-actions"><LanguageSwitch locale={locale} onChange={setLocale}/></div>
    </nav>
+
    <section className="hero">
     <div className="copy">
      <span className="pill">{t.navMeta}</span>
      <h1>{t.hero} <em>{t.heroAccent}</em></h1>
      <p>{t.heroBody}</p>
      <div className="actions">
-      <button className="primary" onClick={()=>reset(results.length>0)}>{t.start}<ArrowRight/></button>
-      {results.length>0&&<button className="secondary" onClick={resume}>{t.resume}</button>}
+      <button className="primary" onClick={results.length>0?resume:()=>reset(false)}>{results.length>0?t.resume:t.start}<ArrowRight/></button>
+      <button className="secondary" onClick={()=>setScreen('guide')}>{t.howItWorks}</button>
      </div>
-     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span><span><RefreshCw/>{locale==='en'?'3 complete scenarios per session · 87-scenario library':'প্রতি সেশনে ৩টি সম্পূর্ণ দৃশ্য · ৮৭ দৃশ্যের লাইব্রেরি'}</span></div>
+     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span><span><RefreshCw/>{locale==='en'?'3 complete scenarios':'৩টি সম্পূর্ণ দৃশ্য'}</span></div>
     </div>
-    <div className="rings" aria-hidden="true"><i/><i/><i/><strong><Sparkles/></strong></div>
+
+    <aside className="hero-preview" aria-label={locale==='en'?'Example scenario preview':'উদাহরণ দৃশ্যের প্রিভিউ'}>
+     <div className="preview-label">{locale==='en'?'EXAMPLE · FICTIONAL POST':'উদাহরণ · কাল্পনিক পোস্ট'}</div>
+     <div className="preview-head"><span className="preview-avatar">C</span><div><b>{locale==='en'?'Community Group':'কমিউনিটি গ্রুপ'}</b><small>@community_group · {t.now}</small></div></div>
+     <p>{locale==='en'?'“Sharing this so everyone knows.” A screenshot includes a person’s phone number and home area.':'“সবাই যেন জানে তাই শেয়ার করছি।” একটি screenshot-এ একজন ব্যক্তির ফোন নম্বর ও বাসার এলাকা দেখা যাচ্ছে।'}</p>
+     <div className="preview-media"><span>{locale==='en'?'PRIVATE INFO VISIBLE':'ব্যক্তিগত তথ্য দেখা যাচ্ছে'}</span><i/><i/><i className="short"/></div>
+     <div className="preview-impact"><b>{locale==='en'?'If you reshare it':'আপনি আবার শেয়ার করলে'}</b><span>{locale==='en'?'more strangers can contact or target that person.':'আরও অপরিচিত মানুষ ওই ব্যক্তিকে যোগাযোগ বা টার্গেট করতে পারে।'}</span></div>
+    </aside>
    </section>
-   <div className="loop">{t.stages.map((x,n)=><span key={x}><small>{'0'+(n+1)}</small><b>{x}</b><em>{t.stageHelp[n]}</em></span>)}</div>
-   <section className="evidence-strip" aria-label={locale==='en'?'Bangladesh digital safety evidence':'বাংলাদেশের ডিজিটাল নিরাপত্তা তথ্য'}>
-    <div><strong>2 in 3</strong><span>{locale==='en'?'young respondents in a 2025 UNICEF Bangladesh U-Report poll said too much fake news / misinformation was their biggest social-media stressor.':'২০২৫ UNICEF Bangladesh U-Report poll-এ প্রতি ৩ জনে ২ জন তরুণ উত্তরদাতা অতিরিক্ত fake news / misinformation-কে social media-র সবচেয়ে বড় stressor বলেছেন।'}</span><small>{locale==='en'?'Nearly 29,000 respondents · UNICEF Bangladesh, 2025':'প্রায় ২৯,০০০ উত্তরদাতা · UNICEF Bangladesh, ২০২৫'} · <a href="https://www.unicef.org/bangladesh/en/press-releases/unicef-youth-poll-misinformation-leading-cause-stress-youth-social-media" target="_blank" rel="noreferrer">{locale==='en'?'source':'উৎস'}</a></small></div>
-    <div><strong>32%</strong><span>{locale==='en'?'of internet-using children in a UNICEF-commissioned Bangladesh study reported online bullying linked to appearance, exam results, religion or other reasons.':'UNICEF-commissioned Bangladesh study-তে ইন্টারনেট ব্যবহারকারী ৩২% শিশু চেহারা, পরীক্ষার ফল, ধর্ম বা অন্যান্য কারণে online bullying-এর কথা জানিয়েছে।'}</span><small>{locale==='en'?'N=1,281, ages 10–17 · study reported in 2019':'N=১,২৮১, বয়স ১০–১৭ · ২০১৯-এ প্রকাশিত সমীক্ষা'} · <a href="https://www.unicef.org/bangladesh/en/press-releases/one-million-school-children-receive-online-safety-certification-next-year" target="_blank" rel="noreferrer">{locale==='en'?'source':'উৎস'}</a></small></div>
-    <p>{locale==='en'?'RIPPLE trains the moment before a share, reaction or reply becomes part of that harm.':'RIPPLE সেই মুহূর্তটিই অনুশীলন করায়—যখন একটি share, reaction বা reply ক্ষতির অংশ হয়ে উঠতে পারে।'}</p>
+
+   <section className="how-simple">
+    <header><span className="eyebrow">{locale==='en'?'HOW IT WORKS':'কীভাবে কাজ করে'}</span><h2>{locale==='en'?'Three clear steps.':'৩টি পরিষ্কার ধাপ।'}</h2></header>
+    <div className="how-cards">
+     <article><span>01</span><b>{locale==='en'?'See a realistic post':'বাস্তবের মতো পোস্ট দেখুন'}</b><p>{locale==='en'?'A fictional feed, group-chat or campus situation.':'ফিড, গ্রুপ চ্যাট বা ক্যাম্পাসের মতো একটি কাল্পনিক পরিস্থিতি।'}</p></article>
+     <article><span>02</span><b>{locale==='en'?'See the human consequence':'মানুষের ওপর প্রভাব দেখুন'}</b><p>{locale==='en'?'See exactly how a small action can affect someone’s safety, reputation or daily life.':'ছোট একটি কাজ কীভাবে কারও নিরাপত্তা, সুনাম বা দৈনন্দিন জীবনে প্রভাব ফেলে দেখুন।'}</p></article>
+     <article><span>03</span><b>{locale==='en'?'Redo it better':'আবার আরও ভালোভাবে করুন'}</b><p>{locale==='en'?'Rewind the same moment, choose a safer action, then compare both outcomes.':'একই মুহূর্তে ফিরে গিয়ে নিরাপদ সিদ্ধান্ত নিন, তারপর দুই ফলাফল তুলনা করুন।'}</p></article>
+    </div>
+   </section>
+
+   <section className="why-matters">
+    <div className="why-copy"><span className="eyebrow">{locale==='en'?'WHY THIS MATTERS':'কেন এটি গুরুত্বপূর্ণ'}</span><h2>{locale==='en'?'Misinformation is already a daily stressor.':'ভুলতথ্য ইতিমধ্যেই দৈনন্দিন চাপের অংশ।'}</h2><p>{locale==='en'?'RIPPLE practises the moment before a share, reaction or reply becomes part of the harm.':'RIPPLE সেই মুহূর্তটি অনুশীলন করায়—যখন share, reaction বা reply ক্ষতির অংশ হয়ে উঠতে পারে।'}</p></div>
+    <div className="evidence-card"><strong>2 in 3</strong><span>{locale==='en'?'young respondents in a 2025 UNICEF Bangladesh U-Report poll said too much fake news / misinformation was their biggest social-media stressor.':'২০২৫ সালের UNICEF Bangladesh U-Report poll-এ প্রতি ৩ জনে ২ জন তরুণ উত্তরদাতা অতিরিক্ত fake news / misinformation-কে social media-র সবচেয়ে বড় stressor বলেছেন।'}</span><small>{locale==='en'?'Almost 29,000 respondents · UNICEF Bangladesh, 2025':'প্রায় ২৯,০০০ উত্তরদাতা · UNICEF Bangladesh, ২০২৫'} · <a href="https://www.unicef.org/bangladesh/en/press-releases/unicef-youth-poll-misinformation-leading-cause-stress-youth-social-media" target="_blank" rel="noreferrer">{locale==='en'?'source':'উৎস'}</a></small></div>
    </section>
   </main>}
 
@@ -322,7 +406,7 @@ function App(){
 
   {screen==='intro'&&<main className="center intro-page">
    <span className="eyebrow">{t.scenario} {'0'+(i+1)} · {s.tag}</span><h2>{s.title}</h2><p className="lead">{s.intro}</p>
-   {i===0&&<div className="nodi"><span className="logo">◎</span><div><b>{t.welcome}</b><small>{t.welcomeBody}</small></div></div>}
+   {i===0&&<div className="scenario-intro-note"><b>{t.welcome}</b><span>{t.welcomeBody}</span></div>}
    <button className="primary" onClick={()=>{track('scenario_started',{screen:'intro',scenario_id:s.id,scenario_index:i+1});setScreen('mirror')}}>{t.seePost}<ArrowRight/></button>
   </main>}
 
@@ -330,27 +414,49 @@ function App(){
    <section><span className="eyebrow">{t.mirror}</span><h2>{s.prompt}</h2><p className="lead">{t.mirrorHelp}</p>
     <div className="choices">{s.choices.map((c,n)=><button key={c.id} className="choice mirror-choice" onClick={()=>{track('mirror_choice',{screen:'mirror',scenario_id:s.id,scenario_index:i+1,choice_id:c.id,choice_kind:c.kind,choice_score:c.score,duration_ms:Date.now()-screenStartedAt});setBId(c.id);setScreen('ripple')}}><span className="choice-number">{'0'+(n+1)}</span><div><b>{c.label}</b><small>{c.helper}</small></div><ArrowRight/></button>)}</div>
    </section>
-   <article className="feed"><div className="feedtop"><span className="avatar">N</span><div><b>Nodi Feed</b><small>@nodi_live · {t.now}</small></div><label>{t.simulation}</label></div><p>{s.post}</p><div className="visual" role="img" aria-label={locale==='en'?'Fictional simulated media preview':'কাল্পনিক সিমুলেটেড মিডিয়া প্রিভিউ'}><div className="visual-copy"><small>{t.simulation}</small><strong>{s.title}</strong><span>{locale==='en'?'Fictional scenario preview · no real footage':'কাল্পনিক দৃশ্যের প্রিভিউ · কোনো বাস্তব ফুটেজ নয়'}</span></div></div><div className="stats"><span><Heart/>1.8k</span><span><Users/>426</span><span><Share2/>713</span></div></article>
+   {(()=>{const meta=socialMeta(s,locale);const reactions=stableCount(s.id,180,1300);const comments=stableCount(s.id+'c',24,240);const shares=stableCount(s.id+'s',18,390);return <article className="feed social-post">
+    <div className="feedtop"><span className="avatar">{meta.initial}</span><div><b>{meta.name}</b><small>{meta.handle} · {t.now}</small></div><label>{t.simulation}</label></div>
+    <p className="post-copy">{s.post}</p>
+    <div className="social-media-preview" role="img" aria-label={locale==='en'?'Fictional attached screenshot preview':'কাল্পনিক সংযুক্ত screenshot প্রিভিউ'}>
+     <span className="media-warning">{meta.warning}</span>
+     <div className="mock-window"><i/><i/><i className="short"/><b>{s.title}</b><i/><i className="short"/></div>
+     <small>{locale==='en'?'Fictional example · no real person, account or private data is shown.':'কাল্পনিক উদাহরণ · কোনো বাস্তব ব্যক্তি, account বা ব্যক্তিগত তথ্য দেখানো হয়নি।'}</small>
+    </div>
+    <div className="simulated-activity">{locale==='en'?'SIMULATED ACTIVITY':'সিমুলেটেড ACTIVITY'}</div>
+    <div className="stats"><span><Heart/>{reactions.toLocaleString()}</span><span><Users/>{comments}</span><span><Share2/>{shares}</span></div>
+   </article>})()}
   </main>}
 
-  {screen==='ripple'&&b&&<main className="wide">
+  {screen==='ripple'&&b&&<main className="wide consequence-page">
    <span className="eyebrow">{t.ripple}</span><h2>{t.rippleTitle}</h2><p className="lead">{t.rippleBody}</p>
-   <div className="human-impact-card">
-      <span className="impact-kicker"><Heart/>{locale==='en'?'THE HUMAN COST':'মানুষের ওপর প্রভাব'}</span>
+
+   <div className="action-recap"><small>{t.click}</small><b>{b.label}</b><span>{b.helper}</span></div>
+
+   <div className={'human-impact-card '+(b.kind==='risk'?'harm':'protected')}>
+      <span className="impact-kicker"><Heart/>{b.kind==='risk'?(locale==='en'?'WHAT THIS CAN DO TO A PERSON':'এতে একজন মানুষের কী হতে পারে'):(locale==='en'?'YOU DID NOT PUSH THE HARM FURTHER':'আপনি ক্ষতিটা আর বাড়াননি')}</span>
       <h3>{b.kind==='risk'
-       ? (locale==='en'?'One small action can leave the screen.':'ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।')
-       : (locale==='en'?'Your pause changed what happened next.':'আপনার থামা পরের ঘটনাপ্রবাহ বদলে দিয়েছে।')}</h3>
+       ? (locale==='en'?'Your action pushed the harm further.':'আপনার কাজটি ক্ষতিটা আরও এগিয়ে দিল।')
+       : (locale==='en'?'Your first move already reduced some harm.':'আপনার প্রথম কাজেই কিছু ক্ষতি কমেছে।')}</h3>
       <p>{b.kind==='risk'?(s.human||b.body):b.body}</p>
-      <small>{locale==='en'?'Fictional composite · designed to show a plausible harm pathway, not predict an individual outcome.':'কাল্পনিক সমন্বিত দৃশ্য · সম্ভাব্য ক্ষতির পথ বোঝাতে তৈরি, কোনো ব্যক্তির বাস্তব ফলাফল ভবিষ্যদ্বাণী নয়।'}</small>
+      <small>{locale==='en'?'Fictional consequence pathway · plausible, not a prediction about a real person.':'কাল্পনিক consequence pathway · সম্ভাব্য উদাহরণ, কোনো বাস্তব ব্যক্তির ভবিষ্যদ্বাণী নয়।'}</small>
    </div>
-   <div className="outcome"><div className="timeline"><span>1</span><div><small>{t.click}</small><b>{b.label}</b></div><span>2</span><div><small>{t.network}</small><b>{b.title}</b></div><span className="human"><Heart/></span><div><small>{t.human}</small><b>{b.body}</b></div></div>
+
+   <div className="impact-list">
+    {impactPoints(s,b,locale).map((point,n)=><div key={point}><span>{n+1}</span><p>{point}</p></div>)}
+   </div>
+
+   <details className="metric-details">
+    <summary>{locale==='en'?'See supporting simulation indicators':'সহায়ক সিমুলেশন সূচক দেখুন'}</summary>
     <div className="metrics"><small><Info/>{t.indicators}</small>{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=>{const v=mm(b)[k],d=v-base[k],good=(k==='safety'||k==='trust')?d>=0:d<=0;return <div className="metric" key={k}><div><span>{metricLabel(k)}</span><b className={good?'good':'bad'}>{d>=0?'+':''}{d}</b></div><i><em style={{width:v+'%'}} className={good?'goodbg':'badbg'}/></i><small>{base[k]} → {v}</small></div>})}</div>
-   </div>
+   </details>
+
    <button className="primary" onClick={()=>{track('ripple_viewed',{screen:'ripple',scenario_id:s.id,scenario_index:i+1});setScreen('reflect')}}>{t.reflectBtn}<ArrowRight/></button>
   </main>}
 
-  {screen==='reflect'&&b&&<main className="center"><div className="panel">
-   <span className="eyebrow">{t.reflect}</span><h2>{t.reflectTitle}</h2><blockquote>{b.body}</blockquote><p className="callout">{t.reflectNote}</p>
+  {screen==='reflect'&&b&&<main className="center"><div className="panel person-focus">
+   <span className="eyebrow">{t.reflect}</span><h2>{t.reflectTitle}</h2>
+   <div className="person-story"><span><Heart/></span><p>{s.human||b.body}</p></div>
+   <p className="callout">{t.reflectNote}</p>
    <button className="primary" onClick={()=>{track('rewind_started',{screen:'reflect',scenario_id:s.id,scenario_index:i+1});setScreen('rewind')}}>{t.rewindBtn}<RotateCcw/></button>
   </div></main>}
 
@@ -371,8 +477,21 @@ function App(){
 
   {screen==='complete'&&b&&p&&<main className="wide">
    <div className="success"><CheckCircle2/><span className="eyebrow">{t.scenario} {i+1} {t.complete}</span><h2>{t.completeTitle}</h2></div>
-   <div className="compare">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
-   <div className="switch"><div><small>MIRROR</small><b>{b.label}</b></div><ArrowRight/><div><small>PEACE</small><b>{p.label}</b></div></div>
+
+   <div className="future-compare">
+    <section className="future bad-future">
+     <small>{locale==='en'?'FIRST CHOICE':'প্রথম সিদ্ধান্ত'}</small><h3>{b.label}</h3>
+     <div className="future-points">{impactPoints(s,b,locale).map((point,n)=><div key={point}><span>{n+1}</span><p>{point}</p></div>)}</div>
+    </section>
+    <div className="future-arrow"><ArrowRight/></div>
+    <section className="future good-future">
+     <small>{locale==='en'?'SAFER RETRY':'নিরাপদ দ্বিতীয় চেষ্টা'}</small><h3>{p.label}</h3>
+     <div className="future-points">{impactPoints(s,p,locale,true).map((point,n)=><div key={point}><CheckCircle2/><p>{point}</p></div>)}</div>
+    </section>
+   </div>
+
+   <div className="compare compact-metrics">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
+
    <button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button>
   </main>}
 
