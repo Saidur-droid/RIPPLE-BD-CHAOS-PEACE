@@ -103,7 +103,7 @@ const shieldBn=['Recognize — ক্ষতিকর আচরণটি চি�
 
 export function buildGeneratedScenarios(locale:Locale):Scenario[]{
  const L=(en:string,bn:string)=>locale==='en'?en:bn;
- return specs.flatMap((spec,idx)=>contexts[locale].map((context,v)=>{
+ return specs.slice(0,28).flatMap((spec,idx)=>contexts[locale].map((context,v)=>{
   const n=v+1;
   return {
    id:`lib-${spec.key}-${n}`,
