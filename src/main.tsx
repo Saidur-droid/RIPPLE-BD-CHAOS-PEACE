@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Sparkles,Users} from 'lucide-react';
+import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Users} from 'lucide-react';
 import './styles.css';
 import {hasAnalyticsConsent,setAnalyticsConsent,track} from './tracking';
 import {buildGeneratedScenarios,currentSessionIds,rotateSessionIds,type Locale,type Metrics,type Scenario,type Choice} from './scenarioEngine';
@@ -8,7 +8,7 @@ import {buildGeneratedScenarios,currentSessionIds,rotateSessionIds,type Locale,t
 const base:Metrics={reach:48,hostility:34,safety:70,trust:66};
 
 const scenariosEn:Scenario[]=[
-{id:'clip',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',human:'A fictional family closes their small shop early after threatening messages target people who share their community identity. Their teenage daughter is told not to travel alone that evening.',intro:'A dramatic clip is moving fast through Nodi. The caption is certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
+{id:'clip',title:'The Cropped Clip',tag:'Misinformation · Interfaith tension',human:'A fictional family closes their small shop early after threatening messages target people who share their community identity. Their teenage daughter is told not to travel alone that evening.',intro:'A dramatic clip is moving fast through a community feed. The caption is certain. The source is not.',post:'“Everyone needs to see this NOW.” A 9-second cropped clip claims a local religious group attacked a community event. No original upload or location is shown.',prompt:'Your friend sends this to a group chat. What do you do first?',choices:[
 {id:'share',label:'Share now',helper:'Pass it on before it disappears',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'Speed beats context',body:'The clip reaches more feeds and comments shift from the event to broad claims about an entire community.'},
 {id:'comment',label:'Post an angry comment',helper:'Call the group out publicly',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'The frame hardens',body:'Your comment becomes social proof and replies repeat the same identity framing without checking the clip.'},
 {id:'verify',label:'Verify the source',helper:'Pause and look for original context',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'The spread slows',body:'You notice the clip begins mid-scene and the source remains unclear, so you do not amplify it.'},
@@ -57,7 +57,7 @@ xray:[
 ];
 
 const scenariosBn:Scenario[]=[
-{id:'clip',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',human:'হুমকিমূলক বার্তায় একই পরিচয়ের মানুষদের টার্গেট করা শুরু হলে একটি কাল্পনিক পরিবার ছোট দোকানটি আগেই বন্ধ করে দেয়। তাদের কিশোরী মেয়েকে সেদিন একা বাইরে যেতে নিষেধ করা হয়।',intro:'নদীতে একটি ছোট ভিডিও দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
+{id:'clip',title:'কাটা ভিডিও',tag:'ভুল তথ্য · সাম্প্রদায়িক উত্তেজনা',human:'হুমকিমূলক বার্তায় একই পরিচয়ের মানুষদের টার্গেট করা শুরু হলে একটি কাল্পনিক পরিবার ছোট দোকানটি আগেই বন্ধ করে দেয়। তাদের কিশোরী মেয়েকে সেদিন একা বাইরে যেতে নিষেধ করা হয়।',intro:'একটি কমিউনিটি ফিডে ছোট ভিডিওটি দ্রুত ছড়িয়ে পড়ছে। ক্যাপশন খুব নিশ্চিত—কিন্তু উৎসটি নয়।',post:'“সবাই এখনই দেখুন।” ৯ সেকেন্ডের একটি কাটা ভিডিওতে দাবি করা হচ্ছে, একটি স্থানীয় ধর্মীয় গোষ্ঠী একটি কমিউনিটি অনুষ্ঠানে হামলা করেছে। মূল ভিডিও, তারিখ বা জায়গার কোনো নির্ভরযোগ্য তথ্য নেই।',prompt:'বন্ধু ভিডিওটি গ্রুপ চ্যাটে পাঠাল। আপনি প্রথমে কী করবেন?',choices:[
 {id:'share',label:'এখনই শেয়ার করব',helper:'হারিয়ে যাওয়ার আগে অন্যদেরও দেখাই',kind:'risk',delta:{reach:28,hostility:24,safety:-17,trust:-20},score:8,title:'গতি তথ্যকে পেছনে ফেলল',body:'ভিডিওটি আরও বেশি মানুষের কাছে পৌঁছায় এবং আলোচনা ঘটনাটি যাচাই করার বদলে পুরো একটি গোষ্ঠীকে নিয়ে সাধারণীকরণের দিকে চলে যায়।'},
 {id:'comment',label:'রাগের মন্তব্য করব',helper:'পাবলিকভাবে প্রতিবাদ জানাই',kind:'risk',delta:{reach:14,hostility:30,safety:-19,trust:-23},score:12,title:'উত্তেজনা আরও শক্ত হলো',body:'আপনার মন্তব্য অন্যদের কাছে “সবাই এমনই ভাবছে” ধরনের সংকেত তৈরি করে; যাচাই ছাড়াই একই পরিচয়ভিত্তিক ভাষা ছড়িয়ে পড়ে।'},
 {id:'verify',label:'উৎস যাচাই করব',helper:'থামি, মূল ভিডিও ও প্রেক্ষাপট খুঁজি',kind:'safe',delta:{reach:-6,hostility:-8,safety:8,trust:12},score:82,title:'ছড়িয়ে পড়ার গতি কমল',body:'আপনি বুঝতে পারেন ভিডিওটি মাঝখান থেকে শুরু হয়েছে এবং মূল উৎস পরিষ্কার নয়—তাই অনিশ্চিত দাবিটি আর ছড়ান না।'},
@@ -115,27 +115,27 @@ xray:[
 
 const ui={
  en:{
-  navMeta:'Fictional digital community · Bangladesh', hero:'Every click has a', heroAccent:'consequence.', heroBody:'Experience how online harm spreads. Rewind the moment. Practise a safer response. See what changed.',
-  start:'Enter Nodi', resume:'Continue', duration:'6–8 minutes', noLogin:'No login', privacy:'No sensitive story submission', cost:'৳0 software cost',
-  guideKicker:'Before you begin', guideTitle:'Three simple steps. That’s it.', guideBody:'You do not need to learn the interface. Just follow the numbers and make the choice that feels most natural to you.',
-  g1Title:'Choose naturally', g1Body:'On the first choice, pick what you would actually do. Do not try to guess the “correct” answer.',
-  g2Title:'See the ripple', g2Body:'RIPPLE shows how that decision changes reach, hostility, safety and trust inside the simulation.',
-  g3Title:'Rewind & retry', g3Body:'Return to the same moment, practise a safer response, then finish all three scenarios.',
+  navMeta:'Digital safety practice · Bangladesh', hero:'Every click can hurt someone —', heroAccent:'or protect them.', heroBody:'Practise realistic online choices. First see what harm your action can cause. Then rewind the same moment, choose better, and compare what changed.',
+  start:'Start', resume:'Continue', duration:'6–8 minutes', noLogin:'No login', privacy:'No personal story needed', cost:'Free to use',
+  guideKicker:'How it works', guideTitle:'See it. Feel the impact. Redo it better.', guideBody:'Each scenario is simple: see a realistic post, choose what you would do, then compare the harm with a safer second choice.',
+  g1Title:'See a realistic post', g1Body:'Read a familiar social-media situation and choose what you would actually do first.',
+  g2Title:'See who gets affected', g2Body:'First we show the human consequence clearly. The small indicators underneath are only supporting simulation signals.',
+  g3Title:'Redo it better', g3Body:'Go back to the same moment, choose a safer action, and compare the before/after outcome side by side.',
   guideCta:'Got it — continue', guideBack:'Back',
-  noticeKicker:'Before you enter Nodi', noticeTitle:'A safe simulation, not a real incident', noticeBody:'All scenarios are fictional composites. No real person, community or political actor is accused. You can exit any time, and no sensitive disclosure is required.',
+  noticeKicker:'Before you start', noticeTitle:'A safe simulation, not a real incident', noticeBody:'All scenarios are fictional composites. No real person, community or political actor is accused. You can exit any time, and no sensitive disclosure is required.',
   n1:'No login or personal data',n2:'Scores describe in-app choices only',n3:'Simulation indicators are not real-world causal estimates',
-  consentTitle:'Share anonymous pilot usage data',consentBody:'Optional. We record only steps, choices, timing, completion and device class — never your name, phone, email, GPS or personal story.', noticeCta:'I understand — enter Nodi',
-  scenario:'Scenario', welcome:'Welcome to Nodi', welcomeBody:'A fictional digital community of 10,000 people. Your choices change what happens next.', seePost:'See the post',
-  mirror:'MIRROR · first instinct', mirrorHelp:'No score is shown yet. Choose what you would most naturally do.',
+  consentTitle:'Share anonymous pilot usage data',consentBody:'Optional. We record only steps, choices, timing, completion and device class — never your name, phone, email, GPS or personal story.', noticeCta:'I understand — start',
+  scenario:'Scenario', welcome:'Start with the post in front of you', welcomeBody:'All examples are fictional but designed to feel like situations people regularly face on social media.', seePost:'See the post',
+  mirror:'WHAT WOULD YOU DO FIRST?', mirrorHelp:'Choose the action you would actually take. We will show what could happen next.',
   simulation:'SIMULATION', now:'now',
-  ripple:'RIPPLE ENGINE', rippleTitle:'One action. Multiple consequences.', rippleBody:'Watch how this simulation responds to your first decision.',
+  ripple:'WHAT HAPPENED BECAUSE OF THAT?', rippleTitle:'Your action changed what happened next.', rippleBody:'Human impact comes first. The small numbers below are only simulation indicators, not real-world predictions.',
   click:'Your click', network:'Network effect', human:'Human consequence', indicators:'Simulation indicators · not effect sizes', reflectBtn:'Reflect on what changed',
-  reflect:'REFLECT', reflectTitle:'What changed because of your action?', reflectNote:'The point is not to label a person “good” or “bad.” It is to make consequences visible enough to practise a different decision.', rewindBtn:'Rewind the moment',
-  rewind:'REWIND', rewindTitle:'You saw the ripple. Now change the first click.', rewindBody:'The timeline is yours again. Practise a response that protects context, people and trust.', peaceBtn:'Try the PEACE path',
-  peace:'PEACE · practise again', peaceTitle:'Choose a safer path.', peaceBody:'Safer responses can have trade-offs. The goal is evidence-informed practice.',
+  reflect:'WHAT DID YOU LEARN?', reflectTitle:'Look at the consequence before you try again.', reflectNote:'The point is not to label a person “good” or “bad.” It is to make consequences visible enough to practise a different decision.', rewindBtn:'Rewind the moment',
+  rewind:'TRY THAT MOMENT AGAIN', rewindTitle:'Same post. Better choice.', rewindBody:'You cannot undo a real post after it spreads, but here you can practise the moment before it happens.', peaceBtn:'Choose a safer action',
+  peace:'CHOOSE A SAFER ACTION', peaceTitle:'What would you do differently now?', peaceBody:'Choose the response that reduces harm while protecting context, safety and the person affected.',
   xray:'MANIPULATION X-RAY', xrayTitle:'Make invisible cues visible.', xrayBody:'Tap at least one signal to inspect it.', inspect:'Tap to inspect this signal.', signals:'signals inspected', continue:'Continue',
   shield:'SHIELD MODE', shieldTitle:'Turn support into a safer sequence.', shieldBody:'Educational guidance — not emergency support.', step:'STEP', of:'OF', back:'Back', finishShield:'Finish SHIELD', nextStep:'Next step',
-  complete:'COMPLETE', completeTitle:'The first click changed. So did the ripple.', safer:'safer direction', nextScenario:'Continue to next scenario', profileBtn:'See my Digital Reflex Profile',
+  complete:'OUTCOME COMPARED', completeTitle:'Same situation. Two different outcomes.', safer:'after your safer choice', nextScenario:'Continue to next scenario', profileBtn:'See my Digital Reflex Profile',
   profile:'DIGITAL REFLEX PROFILE', strong:'Strong peacebuilding reflexes', developing:'Developing strong reflexes', growing:'Growing digital awareness', profileBody:'A transparent learning summary based only on choices made inside this simulation.',
   sessionScore:'Session score', reflexes:'YOUR FIVE REFLEXES', higher:'Higher = safer in-session choices',
   d1:'Verify before sharing',d2:'Manipulation detection',d3:'Bystander response',d4:'Target support',d5:'De-escalation',
@@ -144,27 +144,27 @@ const ui={
   stages:['MIRROR','RIPPLE','REWIND','PEACE','REFLECT'], stageHelp:['Choose naturally','See what changes','Return to the moment','Practise a safer path','Leave with a reflex']
  },
  bn:{
-  navMeta:'কাল্পনিক ডিজিটাল কমিউনিটি · বাংলাদেশ', hero:'প্রতিটি ক্লিকেরই', heroAccent:'পরিণতি আছে।', heroBody:'অনলাইনে ক্ষতি কীভাবে ছড়ায় দেখুন। একই মুহূর্তে ফিরে যান, আরও নিরাপদ প্রতিক্রিয়া অনুশীলন করুন, তারপর দেখুন কী বদলেছে।',
-  start:'নদীতে প্রবেশ করুন', resume:'চালিয়ে যান', duration:'৬–৮ মিনিট', noLogin:'লগইন লাগবে না', privacy:'ব্যক্তিগত গল্প দিতে হবে না', cost:'৳০ সফটওয়্যার খরচ',
-  guideKicker:'শুরু করার আগে', guideTitle:'মাত্র ৩টি ধাপ। খুব সহজ।', guideBody:'ইন্টারফেস শেখার দরকার নেই। শুধু ১–২–৩ অনুসরণ করুন এবং প্রথম সিদ্ধান্তে বাস্তবে যা করতেন সেটিই বেছে নিন।',
-  g1Title:'নিজের মতো সিদ্ধান্ত নিন', g1Body:'প্রথমবার বাস্তবে যা করতেন সেটিই বেছে নিন। “সঠিক উত্তর” আন্দাজ করার চেষ্টা করবেন না।',
-  g2Title:'প্রভাব দেখুন', g2Body:'আপনার সিদ্ধান্তে নাগাল, উত্তেজনা, নিরাপত্তা ও আস্থা কীভাবে বদলায়—RIPPLE তা দেখাবে।',
-  g3Title:'ফিরে গিয়ে আবার চেষ্টা করুন', g3Body:'একই মুহূর্তে ফিরে গিয়ে আরও নিরাপদ প্রতিক্রিয়া অনুশীলন করুন। এভাবে ৩টি দৃশ্য শেষ করুন।',
+  navMeta:'ডিজিটাল নিরাপত্তা অনুশীলন · বাংলাদেশ', hero:'একটি ক্লিক কাউকে ক্ষতি করতে পারে —', heroAccent:'আবার রক্ষা করতেও পারে।', heroBody:'বাস্তব জীবনের মতো অনলাইন পরিস্থিতিতে সিদ্ধান্ত নিন। আগে দেখুন আপনার কাজ কী ক্ষতি করতে পারে। তারপর একই মুহূর্তে ফিরে গিয়ে ভালো সিদ্ধান্ত নিন এবং পার্থক্য দেখুন।',
+  start:'শুরু করুন', resume:'চালিয়ে যান', duration:'৬–৮ মিনিট', noLogin:'লগইন লাগবে না', privacy:'ব্যক্তিগত গল্প লাগবে না', cost:'বিনামূল্যে',
+  guideKicker:'যেভাবে কাজ করে', guideTitle:'দেখুন। প্রভাব বুঝুন। আবার ভালোভাবে করুন।', guideBody:'প্রতি দৃশ্য খুব সহজ: বাস্তবসম্মত একটি পোস্ট দেখুন, নিজের সিদ্ধান্ত নিন, তারপর ক্ষতি ও ভালো সিদ্ধান্তের ফল পাশাপাশি দেখুন।',
+  g1Title:'বাস্তবসম্মত পোস্ট দেখুন', g1Body:'চেনা social-media পরিস্থিতি পড়ুন এবং সত্যি সত্যি যা করতেন সেটিই বেছে নিন।',
+  g2Title:'কার ওপর কী প্রভাব পড়ল দেখুন', g2Body:'প্রথমে মানুষের ওপর প্রভাব পরিষ্কারভাবে দেখানো হবে। নিচের ছোট সংখ্যাগুলো শুধু সহায়ক simulation signal।',
+  g3Title:'আবার ভালো সিদ্ধান্ত নিন', g3Body:'একই মুহূর্তে ফিরে গিয়ে আরও নিরাপদ সিদ্ধান্ত নিন এবং আগের ও পরের ফল পাশাপাশি তুলনা করুন।',
   guideCta:'বুঝেছি — এগিয়ে যাই', guideBack:'ফিরে যান',
-  noticeKicker:'নদীতে ঢোকার আগে', noticeTitle:'এটি নিরাপদ অনুশীলন — বাস্তব ঘটনা নয়', noticeBody:'সব দৃশ্যই কাল্পনিক। কোনো বাস্তব ব্যক্তি, সম্প্রদায় বা রাজনৈতিক পক্ষকে অভিযুক্ত করা হয়নি। যেকোনো সময় বের হতে পারবেন, এবং কোনো সংবেদনশীল ব্যক্তিগত তথ্য দিতে হবে না।',
+  noticeKicker:'শুরু করার আগে', noticeTitle:'এটি নিরাপদ অনুশীলন — বাস্তব ঘটনা নয়', noticeBody:'সব দৃশ্যই কাল্পনিক। কোনো বাস্তব ব্যক্তি, সম্প্রদায় বা রাজনৈতিক পক্ষকে অভিযুক্ত করা হয়নি। যেকোনো সময় বের হতে পারবেন, এবং কোনো সংবেদনশীল ব্যক্তিগত তথ্য দিতে হবে না।',
   n1:'লগইন বা ব্যক্তিগত তথ্য লাগবে না',n2:'স্কোর শুধু এই অ্যাপের সিদ্ধান্ত বোঝায়',n3:'সিমুলেশন সূচক বাস্তব জগতের প্রভাবের মাপ নয়',
-  consentTitle:'নামবিহীন pilot usage data শেয়ার করতে রাজি',consentBody:'ঐচ্ছিক। শুধু ধাপ, পছন্দ, সময়, completion ও device class রেকর্ড হবে — নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নয়।', noticeCta:'বুঝেছি — নদীতে প্রবেশ করি',
-  scenario:'দৃশ্য', welcome:'নদীতে স্বাগতম', welcomeBody:'১০,০০০ মানুষের একটি কাল্পনিক ডিজিটাল কমিউনিটি। আপনার সিদ্ধান্তে পরের ঘটনা বদলাবে।', seePost:'পোস্টটি দেখুন',
-  mirror:'MIRROR · প্রথম সিদ্ধান্ত', mirrorHelp:'এখনো কোনো স্কোর দেখানো হচ্ছে না। বাস্তবে যা করতেন সেটিই বেছে নিন।',
+  consentTitle:'নামবিহীন pilot usage data শেয়ার করতে রাজি',consentBody:'ঐচ্ছিক। শুধু ধাপ, পছন্দ, সময়, completion ও device class রেকর্ড হবে — নাম, ফোন, ইমেইল, GPS বা ব্যক্তিগত গল্প নয়।', noticeCta:'বুঝেছি — শুরু করি',
+  scenario:'দৃশ্য', welcome:'আপনার সামনে থাকা পোস্টটি দিয়ে শুরু করুন', welcomeBody:'সব উদাহরণ কাল্পনিক, তবে social media-তে মানুষ যে ধরনের পরিস্থিতির মুখোমুখি হয় সেগুলোর মতো করে তৈরি।', seePost:'পোস্টটি দেখুন',
+  mirror:'আপনি প্রথমে কী করতেন?', mirrorHelp:'বাস্তবে যে কাজটি করতেন সেটি বেছে নিন। এরপর কী হতে পারে আমরা দেখাব।',
   simulation:'সিমুলেশন', now:'এখন',
-  ripple:'RIPPLE ENGINE', rippleTitle:'একটি সিদ্ধান্ত, একাধিক প্রভাব।', rippleBody:'আপনার প্রথম সিদ্ধান্তে সিমুলেশন কীভাবে বদলায় দেখুন।',
+  ripple:'আপনার কাজের কারণে কী হলো?', rippleTitle:'আপনার সিদ্ধান্ত পরের ঘটনাগুলো বদলে দিয়েছে।', rippleBody:'আগে মানুষের ওপর প্রভাব দেখুন। নিচের সংখ্যাগুলো শুধু simulation indicator—বাস্তব ভবিষ্যদ্বাণী নয়।',
   click:'আপনার সিদ্ধান্ত', network:'অনলাইনে ছড়িয়ে পড়ার প্রভাব', human:'মানুষের ওপর প্রভাব', indicators:'সিমুলেশন সূচক · বাস্তব effect size নয়', reflectBtn:'কী বদলেছে দেখি',
-  reflect:'REFLECT', reflectTitle:'আপনার সিদ্ধান্তের কারণে কী বদলেছে?', reflectNote:'উদ্দেশ্য কাউকে “ভালো” বা “খারাপ” বলা নয়। উদ্দেশ্য হলো পরিণতি এতটা পরিষ্কার করা, যাতে নতুন সিদ্ধান্ত অনুশীলন করা যায়।', rewindBtn:'মুহূর্তে ফিরে যান',
-  rewind:'REWIND', rewindTitle:'আপনার ক্লিক স্ক্রিনের বাইরে চলে গেছে। মুহূর্তটা ফিরিয়ে নিন।', rewindBody:'সিমুলেশনে পরিণতি ঘটেছে। এবার ঠিক সেই সিদ্ধান্তের মুহূর্তে ফিরে গিয়ে প্রেক্ষাপট, মানুষ ও আস্থা রক্ষা করে এমন প্রতিক্রিয়া অনুশীলন করুন।', peaceBtn:'PEACE পথে আবার চেষ্টা করুন',
-  peace:'PEACE · দ্বিতীয় চেষ্টা', peaceTitle:'আরও নিরাপদ পথ বেছে নিন।', peaceBody:'নিরাপদ প্রতিক্রিয়াতেও কিছু সমঝোতা থাকতে পারে। লক্ষ্য হলো তথ্যভিত্তিক অনুশীলন।',
+  reflect:'আপনি কী শিখলেন?', reflectTitle:'আবার চেষ্টা করার আগে পরিণতিটা দেখুন।', reflectNote:'উদ্দেশ্য কাউকে “ভালো” বা “খারাপ” বলা নয়। উদ্দেশ্য হলো পরিণতি এতটা পরিষ্কার করা, যাতে নতুন সিদ্ধান্ত অনুশীলন করা যায়।', rewindBtn:'মুহূর্তে ফিরে যান',
+  rewind:'একই মুহূর্তে আবার চেষ্টা করুন', rewindTitle:'একই পোস্ট। এবার ভালো সিদ্ধান্ত।', rewindBody:'বাস্তবে ছড়িয়ে পড়া পোস্ট ফিরিয়ে নেওয়া যায় না। কিন্তু এখানে ক্ষতি হওয়ার আগের মুহূর্তটি অনুশীলন করতে পারবেন।', peaceBtn:'আরও নিরাপদ সিদ্ধান্ত নিন',
+  peace:'আরও নিরাপদ সিদ্ধান্ত নিন', peaceTitle:'এবার আপনি কী ভিন্নভাবে করবেন?', peaceBody:'যে সিদ্ধান্ত ক্ষতি কমায় এবং মানুষ, নিরাপত্তা ও প্রেক্ষাপটকে রক্ষা করে সেটি বেছে নিন।',
   xray:'MANIPULATION X-RAY', xrayTitle:'লুকানো সংকেতগুলো দৃশ্যমান করুন।', xrayBody:'অন্তত একটি সংকেত খুলে দেখুন।', inspect:'কেন এটি গুরুত্বপূর্ণ জানতে খুলুন।', signals:'টি সংকেত দেখা হয়েছে', continue:'এগিয়ে যান',
   shield:'SHIELD MODE', shieldTitle:'সহায়তাকে ধাপে ধাপে নিরাপদ করুন।', shieldBody:'এটি শেখার নির্দেশনা — জরুরি সহায়তা নয়।', step:'ধাপ', of:'এর মধ্যে', back:'পেছনে', finishShield:'SHIELD শেষ করুন', nextStep:'পরের ধাপ',
-  complete:'সম্পন্ন', completeTitle:'প্রথম সিদ্ধান্ত বদলেছে — তার সঙ্গে বদলেছে প্রভাবও।', safer:'আরও নিরাপদ দিক', nextScenario:'পরের দৃশ্যে যান', profileBtn:'আমার Digital Reflex Profile দেখুন',
+  complete:'ফলাফল তুলনা', completeTitle:'একই পরিস্থিতি। দুই রকম ফলাফল।', safer:'ভালো সিদ্ধান্তের পরে', nextScenario:'পরের দৃশ্যে যান', profileBtn:'আমার Digital Reflex Profile দেখুন',
   profile:'DIGITAL REFLEX PROFILE', strong:'দায়িত্বশীল ডিজিটাল সিদ্ধান্তে শক্তিশালী অভ্যাস', developing:'দায়িত্বশীল ডিজিটাল অভ্যাস গড়ে উঠছে', growing:'ডিজিটাল সচেতনতা তৈরি হচ্ছে', profileBody:'এই প্রোফাইল শুধু এই সেশনে আপনার নেওয়া সিদ্ধান্তগুলোর শেখার সারাংশ।',
   sessionScore:'সেশন স্কোর', reflexes:'আপনার ৫টি ডিজিটাল রিফ্লেক্স', higher:'বেশি স্কোর = এই সেশনে তুলনামূলক নিরাপদ সিদ্ধান্ত',
   d1:'শেয়ার করার আগে যাচাই',d2:'প্রভাবিত করার কৌশল শনাক্ত',d3:'দর্শক হিসেবে দায়িত্বশীল প্রতিক্রিয়া',d4:'আক্রান্ত ব্যক্তিকে সহায়তা',d5:'উত্তেজনা কমানো',
@@ -284,15 +284,23 @@ function App(){
       <button className="primary" onClick={()=>reset(results.length>0)}>{t.start}<ArrowRight/></button>
       {results.length>0&&<button className="secondary" onClick={resume}>{t.resume}</button>}
      </div>
-     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span><span><RefreshCw/>{locale==='en'?'3 complete scenarios per session · 87-scenario library':'প্রতি সেশনে ৩টি সম্পূর্ণ দৃশ্য · ৮৭ দৃশ্যের লাইব্রেরি'}</span></div>
+     <div className="trust"><span><Gauge/>{t.duration}</span><span><ShieldCheck/>{t.noLogin}</span><span><Pause/>{t.privacy}</span><span><RefreshCw/>{locale==='en'?'3 complete scenarios':'৩টি সম্পূর্ণ দৃশ্য'}</span><span>{locale==='en'?'Bangla + English':'বাংলা + English'}</span></div>
     </div>
-    <div className="rings" aria-hidden="true"><i/><i/><i/><strong><Sparkles/></strong></div>
+    <aside className="hero-preview" aria-label={locale==='en'?'Example scenario preview':'উদাহরণ দৃশ্যের প্রিভিউ'}>
+      <small>{locale==='en'?'EXAMPLE':'উদাহরণ'}</small>
+      <div className="preview-post"><span className="avatar">C</span><div><b>{locale==='en'?'Community Feed':'কমিউনিটি ফিড'}</b><em>@community_update · 2m</em></div></div>
+      <p>{locale==='en'?'“Share this before they delete it.” A cropped screenshot shows a phone number and a claim with no source.':'“ডিলিট হওয়ার আগে শেয়ার করুন।” কাটা একটি screenshot-এ ফোন নম্বর ও উৎসহীন একটি দাবি দেখা যাচ্ছে।'}</p>
+      <div className="preview-impact"><b>{locale==='en'?'Your action can change who gets hurt next.':'আপনার সিদ্ধান্ত ঠিক করতে পারে পরের ক্ষতিটা কার ওপর পড়বে।'}</b></div>
+    </aside>
    </section>
-   <div className="loop">{t.stages.map((x,n)=><span key={x}><small>{'0'+(n+1)}</small><b>{x}</b><em>{t.stageHelp[n]}</em></span>)}</div>
-   <section className="evidence-strip" aria-label={locale==='en'?'Bangladesh digital safety evidence':'বাংলাদেশের ডিজিটাল নিরাপত্তা তথ্য'}>
+   <section className="how-simple">
+    <article><span>01</span><b>{locale==='en'?'See a realistic post':'বাস্তবসম্মত পোস্ট দেখুন'}</b><p>{locale==='en'?'A familiar social-media situation, clearly marked fictional.':'চেনা social-media পরিস্থিতি, তবে স্পষ্টভাবে কাল্পনিক।'}</p></article>
+    <article><span>02</span><b>{locale==='en'?'See the human impact':'মানুষের ওপর প্রভাব দেখুন'}</b><p>{locale==='en'?'Understand what your first action could do to another person.':'আপনার প্রথম কাজ অন্য একজনের জীবনে কী প্রভাব ফেলতে পারে দেখুন।'}</p></article>
+    <article><span>03</span><b>{locale==='en'?'Redo it better':'আবার ভালোভাবে করুন'}</b><p>{locale==='en'?'Rewind, choose safer, then compare the two outcomes.':'ফিরে গিয়ে ভালো সিদ্ধান্ত নিন, তারপর দুই ফলাফল তুলনা করুন।'}</p></article>
+   </section>
+   <section className="why-card" aria-label={locale==='en'?'Why this matters':'কেন এটি গুরুত্বপূর্ণ'}>
     <div><strong>2 in 3</strong><span>{locale==='en'?'young respondents in a 2025 UNICEF Bangladesh U-Report poll said too much fake news / misinformation was their biggest social-media stressor.':'২০২৫ UNICEF Bangladesh U-Report poll-এ প্রতি ৩ জনে ২ জন তরুণ উত্তরদাতা অতিরিক্ত fake news / misinformation-কে social media-র সবচেয়ে বড় stressor বলেছেন।'}</span><small>{locale==='en'?'Nearly 29,000 respondents · UNICEF Bangladesh, 2025':'প্রায় ২৯,০০০ উত্তরদাতা · UNICEF Bangladesh, ২০২৫'} · <a href="https://www.unicef.org/bangladesh/en/press-releases/unicef-youth-poll-misinformation-leading-cause-stress-youth-social-media" target="_blank" rel="noreferrer">{locale==='en'?'source':'উৎস'}</a></small></div>
-    <div><strong>32%</strong><span>{locale==='en'?'of internet-using children in a UNICEF-commissioned Bangladesh study reported online bullying linked to appearance, exam results, religion or other reasons.':'UNICEF-commissioned Bangladesh study-তে ইন্টারনেট ব্যবহারকারী ৩২% শিশু চেহারা, পরীক্ষার ফল, ধর্ম বা অন্যান্য কারণে online bullying-এর কথা জানিয়েছে।'}</span><small>{locale==='en'?'N=1,281, ages 10–17 · study reported in 2019':'N=১,২৮১, বয়স ১০–১৭ · ২০১৯-এ প্রকাশিত সমীক্ষা'} · <a href="https://www.unicef.org/bangladesh/en/press-releases/one-million-school-children-receive-online-safety-certification-next-year" target="_blank" rel="noreferrer">{locale==='en'?'source':'উৎস'}</a></small></div>
-    <p>{locale==='en'?'RIPPLE trains the moment before a share, reaction or reply becomes part of that harm.':'RIPPLE সেই মুহূর্তটিই অনুশীলন করায়—যখন একটি share, reaction বা reply ক্ষতির অংশ হয়ে উঠতে পারে।'}</p>
+    <p>{locale==='en'?'RIPPLE practises the decision before a share, reaction or reply becomes part of the harm.':'RIPPLE সেই সিদ্ধান্তের মুহূর্তটাই অনুশীলন করায়—share, reaction বা reply ক্ষতির অংশ হওয়ার আগে।'}</p>
    </section>
   </main>}
 
@@ -322,7 +330,6 @@ function App(){
 
   {screen==='intro'&&<main className="center intro-page">
    <span className="eyebrow">{t.scenario} {'0'+(i+1)} · {s.tag}</span><h2>{s.title}</h2><p className="lead">{s.intro}</p>
-   {i===0&&<div className="nodi"><span className="logo">◎</span><div><b>{t.welcome}</b><small>{t.welcomeBody}</small></div></div>}
    <button className="primary" onClick={()=>{track('scenario_started',{screen:'intro',scenario_id:s.id,scenario_index:i+1});setScreen('mirror')}}>{t.seePost}<ArrowRight/></button>
   </main>}
 
@@ -330,22 +337,33 @@ function App(){
    <section><span className="eyebrow">{t.mirror}</span><h2>{s.prompt}</h2><p className="lead">{t.mirrorHelp}</p>
     <div className="choices">{s.choices.map((c,n)=><button key={c.id} className="choice mirror-choice" onClick={()=>{track('mirror_choice',{screen:'mirror',scenario_id:s.id,scenario_index:i+1,choice_id:c.id,choice_kind:c.kind,choice_score:c.score,duration_ms:Date.now()-screenStartedAt});setBId(c.id);setScreen('ripple')}}><span className="choice-number">{'0'+(n+1)}</span><div><b>{c.label}</b><small>{c.helper}</small></div><ArrowRight/></button>)}</div>
    </section>
-   <article className="feed"><div className="feedtop"><span className="avatar">N</span><div><b>Nodi Feed</b><small>@nodi_live · {t.now}</small></div><label>{t.simulation}</label></div><p>{s.post}</p><div className="visual" role="img" aria-label={locale==='en'?'Fictional simulated media preview':'কাল্পনিক সিমুলেটেড মিডিয়া প্রিভিউ'}><div className="visual-copy"><small>{t.simulation}</small><strong>{s.title}</strong><span>{locale==='en'?'Fictional scenario preview · no real footage':'কাল্পনিক দৃশ্যের প্রিভিউ · কোনো বাস্তব ফুটেজ নয়'}</span></div></div><div className="stats"><span><Heart/>1.8k</span><span><Users/>426</span><span><Share2/>713</span></div></article>
+   <article className="feed realistic-feed">
+    <div className="feedtop"><span className="avatar">C</span><div><b>{locale==='en'?'Community Feed':'কমিউনিটি ফিড'}</b><small>@community_update · 2m</small></div><label>{locale==='en'?'FICTIONAL EXAMPLE':'কাল্পনিক উদাহরণ'}</label></div>
+    <p className="post-copy">{s.post}</p>
+    <div className="social-attachment" role="img" aria-label={locale==='en'?'Fictional social media attachment preview':'কাল্পনিক social media attachment preview'}>
+      <div className="attachment-top"><span>{locale==='en'?'Screenshot preview':'স্ক্রিনশট প্রিভিউ'}</span><b>{locale==='en'?'Sensitive details hidden':'সংবেদনশীল তথ্য লুকানো'}</b></div>
+      <div className="fake-shot"><i/><i/><i className="short"/><em>{locale==='en'?'Phone / address / identity details redacted':'ফোন / ঠিকানা / পরিচয়ের তথ্য লুকানো হয়েছে'}</em></div>
+    </div>
+    <div className="stats"><span><Heart/>1.8k</span><span><Users/>426</span><span><Share2/>713</span></div>
+   </article>
   </main>}
 
-  {screen==='ripple'&&b&&<main className="wide">
+  {screen==='ripple'&&b&&<main className="wide impact-screen">
    <span className="eyebrow">{t.ripple}</span><h2>{t.rippleTitle}</h2><p className="lead">{t.rippleBody}</p>
-   <div className="human-impact-card">
-      <span className="impact-kicker"><Heart/>{locale==='en'?'THE HUMAN COST':'মানুষের ওপর প্রভাব'}</span>
+   <section className={b.kind==='risk'?'impact-story harmful':'impact-story protective'}>
+      <span className="impact-kicker"><Heart/>{b.kind==='risk'?(locale==='en'?'WHAT HARM HAPPENED':'কী ক্ষতি হলো'):(locale==='en'?'WHAT YOU PREVENTED':'কী ক্ষতি থামালেন')}</span>
       <h3>{b.kind==='risk'
-       ? (locale==='en'?'One small action can leave the screen.':'ছোট একটি কাজ স্ক্রিনের বাইরেও প্রভাব ফেলতে পারে।')
-       : (locale==='en'?'Your pause changed what happened next.':'আপনার থামা পরের ঘটনাপ্রবাহ বদলে দিয়েছে।')}</h3>
-      <p>{b.kind==='risk'?(s.human||b.body):b.body}</p>
-      <small>{locale==='en'?'Fictional composite · designed to show a plausible harm pathway, not predict an individual outcome.':'কাল্পনিক সমন্বিত দৃশ্য · সম্ভাব্য ক্ষতির পথ বোঝাতে তৈরি, কোনো ব্যক্তির বাস্তব ফলাফল ভবিষ্যদ্বাণী নয়।'}</small>
-   </div>
-   <div className="outcome"><div className="timeline"><span>1</span><div><small>{t.click}</small><b>{b.label}</b></div><span>2</span><div><small>{t.network}</small><b>{b.title}</b></div><span className="human"><Heart/></span><div><small>{t.human}</small><b>{b.body}</b></div></div>
-    <div className="metrics"><small><Info/>{t.indicators}</small>{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=>{const v=mm(b)[k],d=v-base[k],good=(k==='safety'||k==='trust')?d>=0:d<=0;return <div className="metric" key={k}><div><span>{metricLabel(k)}</span><b className={good?'good':'bad'}>{d>=0?'+':''}{d}</b></div><i><em style={{width:v+'%'}} className={good?'goodbg':'badbg'}/></i><small>{base[k]} → {v}</small></div>})}</div>
-   </div>
+       ? (locale==='en'?'Your first action made the situation harder for someone else.':'আপনার প্রথম কাজটি অন্য একজনের পরিস্থিতি আরও কঠিন করেছে।')
+       : (locale==='en'?'Your first action reduced the chance of more harm.':'আপনার প্রথম কাজ আরও ক্ষতি হওয়ার ঝুঁকি কমিয়েছে।')}</h3>
+      <p className="human-story">{b.kind==='risk'?(s.human||b.body):b.body}</p>
+      <div className="impact-points">
+       <span>1<b>{b.label}</b></span>
+       <span>2<b>{b.title}</b></span>
+       <span>3<b>{locale==='en'?'A real person would carry the consequence':'পরিণতিটা একজন মানুষকেই বহন করতে হয়'}</b></span>
+      </div>
+      <small>{locale==='en'?'Fictional composite based on common online-harm patterns. This is a plausible learning scenario, not a prediction about a real person.':'অনলাইন ক্ষতির সাধারণ ধরণ থেকে তৈরি কাল্পনিক দৃশ্য। এটি শেখার জন্য সম্ভাব্য উদাহরণ, কোনো বাস্তব ব্যক্তির ভবিষ্যদ্বাণী নয়।'}</small>
+   </section>
+   <details className="supporting-metrics"><summary>{locale==='en'?'See supporting simulation indicators':'সহায়ক simulation indicator দেখুন'}</summary><div className="metrics compact">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=>{const v=mm(b)[k],d=v-base[k],good=(k==='safety'||k==='trust')?d>=0:d<=0;return <div className="metric" key={k}><div><span>{metricLabel(k)}</span><b className={good?'good':'bad'}>{d>=0?'+':''}{d}</b></div><small>{base[k]} → {v}</small></div>})}</div></details>
    <button className="primary" onClick={()=>{track('ripple_viewed',{screen:'ripple',scenario_id:s.id,scenario_index:i+1});setScreen('reflect')}}>{t.reflectBtn}<ArrowRight/></button>
   </main>}
 
@@ -354,7 +372,7 @@ function App(){
    <button className="primary" onClick={()=>{track('rewind_started',{screen:'reflect',scenario_id:s.id,scenario_index:i+1});setScreen('rewind')}}>{t.rewindBtn}<RotateCcw/></button>
   </div></main>}
 
-  {screen==='rewind'&&<main className="center"><div className="panel rewind"><div className="miniRings"><i/><i/><i/><RotateCcw/></div><span className="eyebrow">{t.rewind}</span><div className="rewind-line">{locale==='en'?'ONE CLICK. TWO POSSIBLE FUTURES.':'একটি ক্লিক। দুটি সম্ভাব্য ভবিষ্যৎ।'}</div><h2>{t.rewindTitle}</h2><p className="lead">{t.rewindBody}</p><button className="primary" onClick={()=>setScreen('peace')}>{t.peaceBtn}<ArrowRight/></button></div></main>}
+  {screen==='rewind'&&<main className="center"><div className="panel rewind"><RotateCcw className="rewind-icon"/><span className="eyebrow">{t.rewind}</span><div className="rewind-line">{locale==='en'?'ONE CLICK. TWO POSSIBLE FUTURES.':'একটি ক্লিক। দুটি সম্ভাব্য ভবিষ্যৎ।'}</div><h2>{t.rewindTitle}</h2><p className="lead">{t.rewindBody}</p><button className="primary" onClick={()=>setScreen('peace')}>{t.peaceBtn}<ArrowRight/></button></div></main>}
 
   {screen==='peace'&&<main className="center"><span className="eyebrow">{t.peace}</span><h2>{t.peaceTitle}</h2><p className="lead">{t.peaceBody}</p><div className="choices peace-choices">{s.peace.map((c,n)=><button key={c.id} className="choice peace-choice" onClick={()=>{track('peace_choice',{screen:'peace',scenario_id:s.id,scenario_index:i+1,choice_id:c.id,choice_kind:c.kind,choice_score:c.score,duration_ms:Date.now()-screenStartedAt});setPId(c.id);setSeen([]);setScreen('xray')}}><span className="choice-number">{'0'+(n+1)}</span><div><b>{c.label}</b><small>{c.helper}</small></div><ArrowRight/></button>)}</div></main>}
 
@@ -369,10 +387,22 @@ function App(){
    <div className="actions"><button className="secondary" disabled={shield===0} onClick={()=>setShield(shield-1)}>{t.back}</button><button className="primary" onClick={()=>{if(shield===4){track('shield_completed',{screen:'shield',scenario_id:s.id,scenario_index:i+1});save()}else setShield(shield+1)}}>{shield===4?t.finishShield:t.nextStep}<ArrowRight/></button></div>
   </main>}
 
-  {screen==='complete'&&b&&p&&<main className="wide">
-   <div className="success"><CheckCircle2/><span className="eyebrow">{t.scenario} {i+1} {t.complete}</span><h2>{t.completeTitle}</h2></div>
-   <div className="compare">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
-   <div className="switch"><div><small>MIRROR</small><b>{b.label}</b></div><ArrowRight/><div><small>PEACE</small><b>{p.label}</b></div></div>
+  {screen==='complete'&&b&&p&&<main className="wide outcome-compare-page">
+   <div className="success"><CheckCircle2/><span className="eyebrow">{t.scenario} {i+1} · {t.complete}</span><h2>{t.completeTitle}</h2><p className="lead">{locale==='en'?'The difference is not the post. The difference is what you chose to do with it.':'পোস্ট একই ছিল। পার্থক্য হয়েছে আপনি সেটার সাথে কী করলেন।'}</p></div>
+   <section className="human-compare">
+    <article className="before-card">
+      <small>{locale==='en'?'FIRST CHOICE':'প্রথম সিদ্ধান্ত'}</small><h3>{b.label}</h3>
+      <b>{locale==='en'?'What happened next':'এরপর কী হলো'}</b>
+      <p>{b.kind==='risk'?(s.human||b.body):b.body}</p>
+    </article>
+    <div className="compare-arrow"><ArrowRight/></div>
+    <article className="after-card">
+      <small>{locale==='en'?'SAFER CHOICE':'আরও নিরাপদ সিদ্ধান্ত'}</small><h3>{p.label}</h3>
+      <b>{locale==='en'?'What improved':'কী ভালো হলো'}</b>
+      <p>{p.body}</p>
+    </article>
+   </section>
+   <details className="supporting-metrics"><summary>{locale==='en'?'Compare the simulation indicators':'simulation indicator তুলনা করুন'}</summary><div className="compare">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div></details>
    <button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button>
   </main>}
 
