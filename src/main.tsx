@@ -492,7 +492,7 @@ function App(){
 
    <div className="compare compact-metrics">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
 
-   <button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button>
+   <div className="complete-actions"><button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button></div>
   </main>}
 
   {screen==='results'&&<main className="wide results">
