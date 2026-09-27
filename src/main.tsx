@@ -475,7 +475,7 @@ function App(){
    <div className="actions"><button className="secondary" disabled={shield===0} onClick={()=>setShield(shield-1)}>{t.back}</button><button className="primary" onClick={()=>{if(shield===4){track('shield_completed',{screen:'shield',scenario_id:s.id,scenario_index:i+1});save()}else setShield(shield+1)}}>{shield===4?t.finishShield:t.nextStep}<ArrowRight/></button></div>
   </main>}
 
-  {screen==='complete'&&b&&p&&<main className="wide">
+  {screen==='complete'&&b&&p&&<main className="wide completion-page">
    <div className="success"><CheckCircle2/><span className="eyebrow">{t.scenario} {i+1} {t.complete}</span><h2>{t.completeTitle}</h2></div>
 
    <div className="future-compare">
