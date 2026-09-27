@@ -228,3 +228,12 @@ h2{max-width:900px;margin:0 0 14px;font-family:Georgia,"Times New Roman",serif;f
  }
  .future-compare{margin-bottom:0}
 }
+
+.completion-page{pointer-events:none}
+.completion-page .complete-actions,.completion-page .complete-actions *{pointer-events:auto}
+.completion-page .future-compare,.completion-page .compact-metrics,.completion-page .success{pointer-events:none}
+@media(max-width:700px){
+ .completion-page{padding-bottom:90px}
+ .completion-page .complete-actions{pointer-events:auto!important}
+ .completion-page .complete-actions .primary{pointer-events:auto!important}
+}
