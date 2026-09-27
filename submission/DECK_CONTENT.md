@@ -8,9 +8,15 @@ Visual: one viral fictional post and one large SHARE button.
 Presenter line: “What if digital citizenship training started with your instinct instead of a lecture?”
 
 ## Slide 2 — The Problem
-Young people make high-speed decisions inside systems designed for reaction, amplification and social proof. Traditional awareness sessions can explain harm, but explanation alone does not let people practise the moment of choice.
+Young people make high-speed decisions inside systems designed for reaction, amplification and social proof.
 
-Use only sourced Bangladesh/context statistics that we verify before final export.
+**Bangladesh evidence:**
+- In a 2025 UNICEF Bangladesh U-Report poll with almost **29,000 respondents**, **two in three** said too much fake news / misinformation was their biggest social-media stressor.
+- A UNICEF-commissioned Bangladesh study of **1,281 internet-using children aged 10–17** reported online bullying among **32%** of respondents.
+
+Presenter line: “The problem is not that young people have never heard ‘think before you share’. The problem is the high-pressure moment when they have to do it.”
+
+Footnote both numbers with source/date and the limitations in `docs/BANGLADESH_EVIDENCE.md`.
 
 ## Slide 3 — The Experience
 **MIRROR → RIPPLE → HUMAN CONSEQUENCE → REWIND → PEACE → REFLECT → RETAIN**
@@ -25,6 +31,12 @@ Three fictional Bangladesh-relevant scenarios:
 3. The Missing Voice — source diversity + representation
 
 Show 3 UI screenshots, not feature bullets.
+
+Product proof:
+- **87 complete fictional scenarios**
+- **3 complete scenarios per session**
+- later sessions rotate to different scenarios where possible
+- no half-scenarios; every scenario completes the consequence → rewind → safer-practice loop
 
 ## Slide 5 — What Makes It Different
 **Consequence simulation, not a quiz.**  

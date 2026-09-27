@@ -26,10 +26,17 @@ Official links:
 - include a measurable outcome achievable by **February 2027**
 - select a clear theme and show direct alignment
 
-### Deadline
-**30 September 2026, 11:59 PM Bangladesh time**
+### Deadline — verify from the live application surface
 
-RIPPLE internal deadline:
+As checked on **27 September 2026**, the official **How to apply** page states:
+
+**3 October 2026, 11:59 PM Bangladesh time**
+
+However, the official **About** page still shows **30 September 2026** in older deadline copy. Treat this as an official-site inconsistency.
+
+**Operational rule:** use the live application form / How to apply page as the current submission source of truth, but aim to be fully submission-ready by **29 September 2026** so this discrepancy cannot hurt us.
+
+RIPPLE internal submission-ready target:
 **29 September 2026**
 
 ## RIPPLE theme choice
@@ -78,4 +85,5 @@ The strongest application is a credible one.
 - [ ] sources checked
 - [ ] no fake partner language
 - [ ] fellowship attendance/commitment confirmed
-- [ ] submitted before 30 Sep 11:59 PM BDT
+- [ ] live application form deadline re-checked immediately before submit
+- [ ] submitted before the currently published application deadline
