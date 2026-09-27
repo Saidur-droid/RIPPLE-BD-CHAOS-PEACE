@@ -490,9 +490,12 @@ function App(){
     </section>
    </div>
 
-   <div className="compare compact-metrics">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
-
    <div className="complete-actions"><button className="primary" onClick={next}>{i===scenarios.length-1?t.profileBtn:t.nextScenario}<ArrowRight/></button></div>
+
+   <details className="completion-metrics">
+    <summary>{locale==='en'?'See supporting simulation indicators':'সহায়ক সিমুলেশন সূচক দেখুন'}</summary>
+    <div className="compare compact-metrics">{(['reach','hostility','safety','trust'] as (keyof Metrics)[]).map(k=><div key={k}><span>{metricLabel(k)}</span><strong>{mm(b)[k]} → {mm(p)[k]}</strong><small>{t.safer}</small></div>)}</div>
+   </details>
   </main>}
 
   {screen==='results'&&<main className="wide results">
