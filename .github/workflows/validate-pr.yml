@@ -21,3 +21,5 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Typecheck and build
         run: npm run build
+      - name: Validate pilot analyzer
+        run: python -m py_compile pilot/analyze.py
