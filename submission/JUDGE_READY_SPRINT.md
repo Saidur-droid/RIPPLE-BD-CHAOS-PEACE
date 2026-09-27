@@ -106,3 +106,33 @@ Report it transparently, fix the biggest usability/learning issue, and show the 
 - final <=8 slide deck
 - verified team eligibility
 - source links / references
+
+
+## LOCKED PRESENTATION PLAN — DO NOT REMOVE
+
+This is the fixed judge hook for the final presentation:
+
+**0–10s** — Show one fictional viral post.  
+Presenter: “You are in Nodi. This appears in your feed. What would you do first?”
+
+**10–20s** — Judge chooses naturally. No coaching.
+
+**20–35s** — Show the simulated consequence chain:
+- Reach changes
+- Hostility changes
+- Safety changes
+- Trust changes
+- One clear fictional human consequence
+
+**35–45s** — Freeze the moment and trigger **REWIND**.
+
+**45–55s** — Judge retries with a safer response and sees the consequence change.
+
+**55–60s** — Close:
+> “We don't only tell young people what responsible digital citizenship looks like. We let them experience a reflex, see its consequence, rewind it, and practise a safer one.”
+
+Final screen:
+**Every click has a consequence.**  
+**#EveryClickRipples**
+
+This presentation sequence is now a locked submission asset.
