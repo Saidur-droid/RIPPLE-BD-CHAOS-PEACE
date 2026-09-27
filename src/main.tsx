@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,Play,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Sparkles,Users} from 'lucide-react';
+import {ArrowRight,CheckCircle2,Gauge,Heart,Info,Pause,RefreshCw,RotateCcw,Search,Share2,Shield,ShieldCheck,Sparkles,Users} from 'lucide-react';
 import './styles.css';
 import {hasAnalyticsConsent,setAnalyticsConsent,track} from './tracking';
 
@@ -318,7 +318,7 @@ function App(){
    <section><span className="eyebrow">{t.mirror}</span><h2>{s.prompt}</h2><p className="lead">{t.mirrorHelp}</p>
     <div className="choices">{s.choices.map((c,n)=><button key={c.id} className="choice mirror-choice" onClick={()=>{track('mirror_choice',{screen:'mirror',scenario_id:s.id,scenario_index:i+1,choice_id:c.id,choice_kind:c.kind,choice_score:c.score,duration_ms:Date.now()-screenStartedAt});setBId(c.id);setScreen('ripple')}}><span className="choice-number">{'0'+(n+1)}</span><div><b>{c.label}</b><small>{c.helper}</small></div><ArrowRight/></button>)}</div>
    </section>
-   <article className="feed"><div className="feedtop"><span className="avatar">N</span><div><b>Nodi Feed</b><small>@nodi_live · {t.now}</small></div><label>{t.simulation}</label></div><p>{s.post}</p><div className="visual"><Play/></div><div className="stats"><span><Heart/>1.8k</span><span><Users/>426</span><span><Share2/>713</span></div></article>
+   <article className="feed"><div className="feedtop"><span className="avatar">N</span><div><b>Nodi Feed</b><small>@nodi_live · {t.now}</small></div><label>{t.simulation}</label></div><p>{s.post}</p><div className="visual" role="img" aria-label={locale==='en'?'Fictional simulated media preview':'কাল্পনিক সিমুলেটেড মিডিয়া প্রিভিউ'}><div className="visual-copy"><small>{t.simulation}</small><strong>{s.title}</strong><span>{locale==='en'?'Fictional scenario preview · no real footage':'কাল্পনিক দৃশ্যের প্রিভিউ · কোনো বাস্তব ফুটেজ নয়'}</span></div></div><div className="stats"><span><Heart/>1.8k</span><span><Users/>426</span><span><Share2/>713</span></div></article>
   </main>}
 
   {screen==='ripple'&&b&&<main className="wide">
