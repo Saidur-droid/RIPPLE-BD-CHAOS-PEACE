@@ -56,8 +56,9 @@ The first MVP is a **6–8 minute, mobile-first web experience** with:
 
 **Planning is locked. Now: build → pilot → measure → refine → submit.**
 
-Internal submission-ready target: **29 September 2026**  
-Official deadline documented in this repo: **30 September 2026, 11:59 PM Bangladesh time**
+**Current official application deadline: 3 October 2026, 11:59 PM Bangladesh time.**
+
+The official How to Apply page and current fellowship timeline show 3 October 2026. Some older page copy previously displayed 30 September; use the live application/how-to-apply surface as the source of truth.
 
 ## Detailed documentation
 
