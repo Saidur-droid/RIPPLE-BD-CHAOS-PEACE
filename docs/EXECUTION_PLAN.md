@@ -1,131 +1,64 @@
-# Execution Plan
+# Execution Plan — Final Submission Sprint
+
+Last updated: **2 October 2026**
 
 ## Mission
 
-Reach submission with:
-- a polished MVP,
-- local pilot evidence,
-- a complete team,
-- an 8-slide deck,
-- a 500-word application,
-- a reliable live demo.
+Submit RIPPLE BD to the DKC Digital Respect & Cohesion Fellowship 2026 with:
+- an eligible 3-5 person same-division team,
+- a working prototype,
+- a maximum 8-slide deck,
+- a maximum 500-word initiative description,
+- a measurable February 2027 outcome,
+- truthful, defensible implementation claims.
 
-## Internal deadline
+## Current official deadline
 
-**29 September 2026:** submission-ready.  
-**30 September:** buffer and final QA only.
+**3 October 2026, 11:59 PM Bangladesh time.**
 
-Official deadline: 30 September 2026, 11:59 PM Bangladesh time.
+The earlier 30 September date is obsolete for execution. The current official How to Apply page and timeline state 3 October.
 
-## Sprint plan
+## Final sprint — 2 October
 
-### 20 Sep — Foundation
-- lock concept and positioning
-- repo structure
-- team recruitment starts
-- evidence base documented
+1. Lock team and target division.
+2. Use `docs/FINAL_SUBMISSION_PACKAGE_2026-10-02.md` as the canonical submission source.
+3. Replace all target-division placeholders.
+4. Produce the final max-8-slide deck.
+5. Test live prototype and QR on phone.
+6. Open the live Google Form and capture any field not covered by the public instructions.
+7. Fill the form using only verified facts.
+8. Save a copy of all answers.
 
-### 21 Sep — Team + UX
-- finalize 3-person team
-- confirm eligibility
-- wireframe full 6–8 minute flow
-- recruit first pilot participants
+## Submit — no later than 3 October
 
-### 22 Sep — Scenario co-design
-- 5–8 short youth conversations
-- refine language and realism
-- freeze three scenarios
-- safeguarding review
+Before pressing submit:
+- deck <=8 slides
+- initiative description <=500 words
+- team 3-5 members
+- same division confirmed
+- age eligibility confirmed
+- one main theme selected
+- cross-cutting lens selected
+- measurable February 2027 outcome included
+- prototype link works
+- no fake pilot, partner, user or impact claims
 
-### 23 Sep — Core engine
-- feed UI
-- decision state
-- Ripple Engine
-- scoring
-- mobile shell
+## Video rule
 
-### 24 Sep — Scenario 1
-- Cropped Clip end to end
-- REWIND complete
-- X-Ray interaction complete
+The current official public instructions do **not** require a video or state a video duration limit.
 
-### 25 Sep — Scenario 2
-- Viral Meme
-- SHIELD Mode
-- support/evidence/reporting learning flow
+Keep the existing 6-minute video as backup. Do not shorten it merely for rule compliance unless the live form itself asks for a specific video format/duration.
 
-### 26 Sep — Scenario 3 + result
-- Missing Voice
-- Digital Reflex Profile
-- all routes connected
-- deployment QA
+## Post-submit
 
-### 27 Sep — Pilot round 1
-- 8–10 users
-- observe without coaching
-- log defects and confusion
-- fix critical issues
+Immediately save:
+- confirmation screenshot
+- submission time
+- submitted deck
+- exact initiative text
+- team list
+- any confirmation email/reference
 
-### 28 Sep — Final pilot
-- reach 20–30 total participants
-- calculate baseline/post metrics
-- collect optional anonymous quotes
-- freeze product unless critical bug
+## Scope freeze
 
-### 29 Sep — Submission package
-- final data chart
-- pitch deck
-- 500-word application
-- demo QR
-- 60-second backup screen recording
-- final proofread
-- upload-ready package
-
-### 30 Sep — Buffer
-- verify links
-- verify PDF/PPTX
-- verify team details
-- submit well before deadline
-
-## Daily operating rhythm
-
-Morning:
-- 10-minute stand-up
-- one must-win deliverable per person
-
-Midday:
-- integration check
-
-Evening:
-- demo current build on a phone
-- update risk log
-- freeze completed scope
-
-## Scope rule
-
-A new feature is allowed only if it materially improves one of:
-- impact,
-- feasibility,
-- community rootedness,
-- theme alignment,
-- team evidence,
-- demo clarity.
-
-Otherwise: backlog.
-
-## Submission definition of done
-
-- working web MVP
-- 3 polished scenarios
-- SHIELD Mode
-- Manipulation X-Ray
-- Digital Reflex Profile
-- 20–30 participant pilot
-- honest pre/post chart
-- 1–2 anonymized quotes
-- demo QR
-- backup video
-- research references
-- 8-slide deck
-- 500-word application
-- eligible 3-person team
+Do not add new features before submission unless they fix a submission-blocking reliability problem.
