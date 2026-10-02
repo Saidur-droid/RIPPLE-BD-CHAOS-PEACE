@@ -117,9 +117,9 @@ Key constraints:
 - maximum 8-slide pitch deck,
 - maximum 500-word initiative description,
 - measurable outcome by February 2027,
-- deadline: 30 September 2026, 11:59 PM Bangladesh time.
+- **current official deadline: 3 October 2026, 11:59 PM Bangladesh time.**
 
-**Internal deadline: 29 September 2026.**
+Deadline source rule: the live How to Apply page / application surface controls. Some older DKC page copy previously showed 30 September.
 
 Preferred team shape:
 - Product & Technology Lead
